@@ -15,6 +15,6 @@ def parser(phrase):
     phrase_lower = phrase_no_accents.lower()
     phrase_alphanum = re.sub('[^A-Za-z0-9-]+', ' ', phrase_lower)
     phrase_sliced = phrase_alphanum.split()
-    search_word = [word for word in phrase_sliced if word not in ERASE_WORDS]
-    return search_word[0]
-    
+    words = [word for word in phrase_sliced if word not in ERASE_WORDS]
+    search_words = " ".join(words)
+    return search_words
