@@ -1,7 +1,8 @@
 import pytest
+from parser import parser
 
 def test_parser():
     phrase = "Salut Grandpy, raconte moi à propos d'Openclassrooms."
-    phrase_parse = parser(phrase)
+    phrase_parsed = parser(phrase)
     
-    assert phrase_parse == "openclassrooms"
+    assert phrase_parsed == "openclassrooms"
