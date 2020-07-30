@@ -1,1 +1,1 @@
-from app import app
+from flaskapp import app
