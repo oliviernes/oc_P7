@@ -18,5 +18,3 @@ def test_parser_STOP_WORDS_only():
     phrase_parsed = Parser()
 
     assert phrase_parsed.parse(adresse) == ""
-    
-    
