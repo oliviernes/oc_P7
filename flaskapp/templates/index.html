@@ -13,5 +13,18 @@
     </header>
     <body>
         <h1>La papy traveler qui raconte sa vie</h1>
+        <form action="" method="post" novalidate>
+            <p>
+                {{ form.question.label }}<br>
+                {{ form.question }}
+                {% for error in form.question.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>{{ form.submit() }}</p>
+        </form>
     </body>
+    <footer>
+        <p> Olivier NESME. Le code est situé ici: <a href="https://github.com/oliviernes/oc_P7"> Github</a></p>
+    </footer>
 </html>
