@@ -3,5 +3,5 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 
 class PapyForm(FlaskForm):
-    question = StringField('Question', validators=[DataRequired()])
+    question = StringField('Pose une question à ton papi', validators=[DataRequired()])
     submit = SubmitField('Envoyer')

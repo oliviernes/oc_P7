@@ -2,29 +2,43 @@
 <html>
     <head>
         <meta charset="UTF-8" />
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+rel="stylesheet">
         <link rel="stylesheet" href="../static/css/styles.css" />
         <title>Grandpy bot</title>
     </head>
-    <header>
-        <div>
-            <img src="../static/img/agecanonix.png" />
-        </div>
-        <h1> Grandpy Bot </h1>
-    </header>
     <body>
-        <h1>La papy traveler qui raconte sa vie</h1>
-        <form action="" method="post" novalidate>
-            <p>
-                {{ form.question.label }}<br>
-                {{ form.question }}
-                {% for error in form.question.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </p>
-            <p>{{ form.submit() }}</p>
-        </form>
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2"><img src="../static/img/agecanonix.png" /></div>
+                <div id="grandpy_title" class="col-lg-10"><h1> Grandpy Bot </h1></div>
+            </div>
+        </div>
+    </header>
+        <div class="container">
+            <div class="row">
+                <div class="offset-lg-2 col-lg-10">
+                    <h1>La papy traveler qui raconte sa vie</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-lg-2 col-lg-10">
+                    <form action="" method="post" novalidate>
+                        <p>
+                            {{ form.question.label }}
+                            {{ form.question }}
+                            {% for error in form.question.errors %}
+                                <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                        </p>
+                        <p>{{ form.submit() }}</p>
+                    </form>
+                </div>
+            </div>
+            <footer class="navbar fixed-bottom">
+                <p> Olivier. Le code est situé ici: <a href="https://github.com/oliviernes/oc_P7"> Github</a></p>
+            </footer>
+        </div>
     </body>
-    <footer>
-        <p> Olivier NESME. Le code est situé ici: <a href="https://github.com/oliviernes/oc_P7"> Github</a></p>
-    </footer>
 </html>

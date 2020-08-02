@@ -1,5 +1,23 @@
 body
 {
-background-color: green; 
-color: white; 
+    background-color: green;
+    color: white;
 }
+
+[class*="col-"]{
+    background-color: lightgreen;
+    border: 2px solid black;
+    border-radius: 6px;
+    line-height: 40px;
+    text-align: center;
+}
+
+a
+{
+    color: yellow;
+}
+
+#grandpy_title{
+    padding-top: 40px;
+}
+
