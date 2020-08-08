@@ -15,7 +15,6 @@ class Parser:
 
     def parse(self, phrase):
         """Parse a phrase"""
-
         phrase_no_accents = unidecode.unidecode(phrase)
         phrase_lower = phrase_no_accents.lower()
         phrase_alphanum = re.sub('[^A-Za-z0-9-]+', ' ', phrase_lower)
@@ -23,3 +22,4 @@ class Parser:
         words = [word for word in phrase_sliced if word not in self.erase_words]
         search_words = " ".join(words)
         return search_words
+

@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# environment app variables:
+app-env
+
+#IDE stuffs:
+.idea
