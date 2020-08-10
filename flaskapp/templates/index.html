@@ -24,15 +24,12 @@ rel="stylesheet">
             </div>
             <div class="row">
                 <div class="offset-lg-2 col-lg-10">
-                    <form action="" method="post" novalidate>
+                    <form id='formi'>
                         <p>
-                            {{ form.question.label }}
-                            {{ form.question }}
-                            {% for error in form.question.errors %}
-                                <span style="color: red;">[{{ error }}]</span>
-                            {% endfor %}
+                            <label label for="question"></label>
+                            <input type="test" id="question" class="forms" name="Question" placeholder="Pose ta question ici">
+                            <input type="submit" value="Envoyer">
                         </p>
-                        <p>{{ form.submit() }}</p>
                     </form>
                 </div>
             <div>{{ locate }}
@@ -41,5 +38,6 @@ rel="stylesheet">
                 <p> Olivier. Le code est situé ici: <a href="https://github.com/oliviernes/oc_P7"> Github</a></p>
             </footer>
         </div>
+        <script type="text/javascript" src={{url_for('static', filename='js/ajax.js')}}></script>
     </body>
 </html>
