@@ -5,6 +5,8 @@
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 rel="stylesheet">
         <link rel="stylesheet" href={{url_for('static', filename='css/styles.css')}} />
+        <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
         <title>Grandpy bot</title>
     </head>
     <body>
@@ -34,10 +36,21 @@ rel="stylesheet">
                 </div>
             <div>{{ locate }}
             </div>
-            <footer class="navbar fixed-bottom">
-                <p> Olivier. Le code est situé ici: <a href="https://github.com/oliviernes/oc_P7"> Github</a></p>
-            </footer>
+            <div id='map' class="offset-lg-2 col-lg-10" style='width: 400px; height: 300px;'></div>
+                <script>
+                    mapboxgl.accessToken = "{{MAPBOX_KEY}}";
+                    var map = new mapboxgl.Map({
+                        container: 'map',
+                        style: 'mapbox://styles/mapbox/streets-v11',
+                        center: [2.3505517, 48.8747265],
+                        zoom: 15,
+                    });
+                </script>
         </div>
+        <footer class="container-fluid">
+            <p> Olivier. Le code est situé ici: <a href="https://github.com/oliviernes/oc_P7"> Github</a></p>
+        </footer>
+
         <script type="text/javascript" src={{url_for('static', filename='js/ajax.js')}}></script>
     </body>
 </html>

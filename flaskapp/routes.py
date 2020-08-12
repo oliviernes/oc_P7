@@ -5,6 +5,7 @@ from flask import render_template, redirect, request, jsonify
 from flaskapp import app
 from flaskapp.forms import PapyForm
 from geoloc import geoloc
+from config import MAPBOX_API
 
 import pdb
 
@@ -17,10 +18,13 @@ def ajax():
         question = request.form['Question']
         locate = geoloc(question)
 
+    # breakpoint()
+
+
     return jsonify(locate)
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/index/', methods=['GET', 'POST'])
+@app.route('/')
+@app.route('/index/')
 def index():
- 
-    return render_template('index.html')
+    
+    return render_template('index.html', MAPBOX_KEY = MAPBOX_API)
