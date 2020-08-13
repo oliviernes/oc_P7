@@ -25,7 +25,7 @@ class TestAPI:
     """Test the API response management."""
 
     def test_geoloc_return(self, mocker):
-        result = {
+        results = {
             "results" :[
                     {
                         'place_id' : "ChIJxfB-lhRu5kcRfK7MP5oTfH8",
@@ -36,8 +36,28 @@ class TestAPI:
                 ],
         }
 
-        mocker.patch('flaskapp.backend.API.Get_json.get_json', return_value = result)
+        mocker.patch('flaskapp.backend.API.Get_json.get_json', return_value = results)
 
         goggle = Google()
 
         assert goggle.geoloc('openclassrooms') == { 'locate': {'lat': 48.8747265, 'lng': 2.3505517}, 'place_id': "ChIJxfB-lhRu5kcRfK7MP5oTfH8" }
+
+    def test_detail_return(self, mocker):
+        result = {
+            "result" : {
+                        'formatted_address' : "7 Cité Paradis, 75010 Paris, France",
+                        'rating' : "3.3",
+                        'geometry' : {
+                                        'location' : {'lat': 48.8747265, 'lng': 2.3505517}
+                                    }
+                    }
+        }
+
+        mocker.patch('flaskapp.backend.API.Get_json.get_json', return_value = result)
+
+        goggle = Google()
+
+        assert goggle.detail('openclassrooms') == { 'address': "7 Cité Paradis, 75010 Paris, France", 'rating': "3.3" , 'coordinates': {'lat': 48.8747265, 'lng': 2.3505517} }
+
+
+        
