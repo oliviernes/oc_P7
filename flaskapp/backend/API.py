@@ -41,28 +41,6 @@ class Google:
     def __init__(self):
         self.key = GOOGLE_API
         self.geocode_url = GEOCODE_URL
-        self.detail_url = DETAIL_URL
-
-    def detail(self, place_id):
-        "Give informations about the user's query"
-
-        payload = {
-            'key': self.key,
-            'place_id': place_id
-        }
-
-        # req = requests.get(self.detail_url, params=payload)
-        # response = req.json()
-
-        response = Get_json(self.detail_url, payload).get_json()
-
-        address = response['result']['formatted_address']
-        rating = response['result'].get('rating', "no_rating")
-        coordinates = response['result']['geometry']['location']
-        breakpoint()
-
-        return { 'address': address, 'rating': rating , 'coordinates': coordinates }
-
 
     def geoloc(self, question):
         "Give coordinates and place_id of the user's query"
