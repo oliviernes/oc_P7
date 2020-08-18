@@ -52,13 +52,18 @@ class Google:
             'key': self.key,
             'address': question_parsed,
         }
-
-        # req = requests.get(self.geocode_url, params=payload)
-        # response = req.json()
         
         response = Get_json(self.geocode_url, payload).get_json()
 
         locate = response['results'][0]['geometry']['location']
-        place_id = response['results'][0]['place_id']
+        address = response['results'][0]['formatted_address']
+        address_components = response['results'][0]['address_components']
 
-        return { 'locate': locate, 'place_id': place_id }
+        for address in address_components:
+            if address['types'][0] == 'route':
+                district = address['long_name']
+
+        if response['status'] == "OK":
+            return { 'locate': locate, 'district': district, 'address': address }
+
+
