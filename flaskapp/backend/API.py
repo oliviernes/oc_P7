@@ -12,9 +12,27 @@ class Get_json:
         self.params = params
 
     def get_json(self):
-        req = requests.get(self.url, self.params)
-        response = req.json()
-        return response
+
+        try:
+            req = requests.get(self.url, self.params, timeout=20)
+        except requests.ConnectionError as e:
+            print("OOPS!! Connection Error. Make sure you are connected to Internet. Technical Details given below.\n")
+            print(str(e))
+        except requests.Timeout as e:
+            print("OOPS!! Timeout Error")
+            print(str(e))
+        except requests.RequestException as e:
+            print("OOPS!! General Error")
+            print(str(e))
+        except KeyboardInterrupt:
+            print("Someone closed the program")
+
+        try:
+            response = req.json()
+        except simplejson.errors.JSONDecodeError:
+            print("Not a json answer")
+        else:
+            return response
 
 
 class Google:
