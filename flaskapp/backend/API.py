@@ -1,6 +1,9 @@
 import requests
 from flaskapp.backend.parser import Parser
-from config import GEOCODE_URL, GOOGLE_API, DETAIL_URL
+from config import GEOCODE_URL, GOOGLE_API, DETAIL_URL, SEARCH_URL
+from mediawiki import MediaWiki
+import mediawiki
+import simplejson
 
 import pdb
 
@@ -67,3 +70,21 @@ class Google:
             return { 'locate': locate, 'district': district, 'address': address }
 
 
+class WikiMedia:
+
+    def __init__(self):
+        self.wikipedia = MediaWiki()
+        self.wikipedia.language = "fr"
+
+    def get_infos(self, query):
+        try:
+            titles = self.wikipedia.search(query)
+            infos = self.wikipedia.page(titles[0])
+            summary = infos.summarize(chars = 500)
+            url = infos.url
+
+        except mediawiki.exceptions.DisambiguationError:
+            summary = ""
+            url = ""
+
+        return { 'summary': summary, 'url': url }
