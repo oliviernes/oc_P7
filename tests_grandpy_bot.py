@@ -59,5 +59,5 @@ class TestAPI:
 
         assert goggle.detail('openclassrooms') == { 'address': "7 Cité Paradis, 75010 Paris, France", 'rating': "3.3" , 'coordinates': {'lat': 48.8747265, 'lng': 2.3505517} }
 
-
+    # def test_get_infos(self, mocker):
         

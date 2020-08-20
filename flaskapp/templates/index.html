@@ -25,7 +25,7 @@ rel="stylesheet">
                 </div>
             </div>
             <div class="row">
-                <div class="offset-lg-2 col-lg-10">
+                <div class="offset-lg-4 col-lg-5">
                     <form id='formi'>
                         <p>
                             <label label for="question"></label>
@@ -34,15 +34,17 @@ rel="stylesheet">
                         </p>
                     </form>
                 </div>
-            <div>{{ locate }}
+                <div class="col-lg-1 col-lg-push-2">
+                    <div id="spin" class="spinner-border"></div>
+                </div>
             </div>
             <div id='map' class="offset-lg-2 col-lg-10" style='width: 400px; height: 300px;'></div>
                 <script>
                     mapboxgl.accessToken = "{{MAPBOX_KEY}}";
                     var map = new mapboxgl.Map({
                         container: 'map',
-                        style: 'mapbox://styles/mapbox/streets-v11',
                         center: [2.3505517, 48.8747265],
+                        style: 'mapbox://styles/mapbox/streets-v11',
                         zoom: 15,
                     });
                 </script>
@@ -50,7 +52,6 @@ rel="stylesheet">
         <footer class="container-fluid">
             <p> Olivier. Le code est situé ici: <a href="https://github.com/oliviernes/oc_P7"> Github</a></p>
         </footer>
-
         <script type="text/javascript" src={{url_for('static', filename='js/ajax.js')}}></script>
     </body>
 </html>
