@@ -1,6 +1,6 @@
 import requests
 from flaskapp.backend.parser import Parser
-from config import GEOCODE_URL, GOOGLE_API, DETAIL_URL, SEARCH_URL
+from config import GEOCODE_URL, GOOGLE_API
 from mediawiki import MediaWiki
 import mediawiki
 import simplejson
@@ -117,13 +117,17 @@ class Google:
         else:
             if response['status'] == "OK":
                 return { 'locate': locate, 'district': district, 'address': address }
-
+            else:
+                self.loc_data = {
+                    'status': False,
+                }
 
 class WikiMedia:
 
     def __init__(self):
         self.wikipedia = MediaWiki()
         self.wikipedia.language = "fr"
+        self.wiki_data = {'status' : True}
 
     def get_infos(self, query):
         try:
@@ -135,5 +139,6 @@ class WikiMedia:
         except mediawiki.exceptions.DisambiguationError:
             summary = ""
             url = ""
+            logging.exception("Exception occurred")
 
         return { 'summary': summary, 'url': url }
