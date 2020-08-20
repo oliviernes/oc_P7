@@ -14,4 +14,3 @@ GOOGLE_API = os.environ.get('GOOGLE_API_KEY')
 MAPBOX_API = os.environ.get('MAPBOX_API_KEY')
 
 GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json"
-
