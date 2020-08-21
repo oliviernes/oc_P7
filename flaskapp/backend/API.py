@@ -76,6 +76,8 @@ class Google:
 
         response = Get_json(self.geocode_url, payload).get_json()
 
+        breakpoint()
+
         try:
             locate = response["results"][0]["geometry"]["location"]
             address = response["results"][0]["formatted_address"]
@@ -90,22 +92,21 @@ class Google:
                 "status": False,
                 "error": {"IndexError": str(error), "response": response,},
             }
-            breakpoint()
-            logging.exception("loc_data=\n{}".format(pf(self.loc_data)))
+            logging.exception(f"loc_data=\n{pf(self.loc_data)}")
 
         except KeyError as error:
             self.loc_data = {
                 "status": False,
                 "error": {"KeyError": str(error), "response": response,},
             }
-            logging.exception("loc_data=\n{}".format(pf(self.loc_data)))
+            logging.exception(f"loc_data=\n{pf(self.loc_data)}")
 
         except TypeError as error:
             self.loc_data = {
                 "status": False,
                 "error": {"TypeError": str(error), "response": response,},
             }
-            logging.exception("loc_data=\n{}".format(pf(self.loc_data)))
+            logging.exception(f"loc_data=\n{pf(self.loc_data)}")
 
         else:
             if response["status"] == "OK":
@@ -143,11 +144,13 @@ class WikiMedia:
                     summary = ""
                     url = ""
                     area = ""
+                    self.wiki_data = {"status": False}
                     logging.exception("Exception occurred")
             else:
                 summary = ""
                 url = ""
                 area = ""
+                self.wiki_data = {"status": False}
                 logging.exception("Exception occurred")
 
         return {"summary": summary, "url": url, "area": area}
