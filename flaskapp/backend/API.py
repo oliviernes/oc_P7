@@ -12,6 +12,7 @@ logger = logging.getLogger()
 
 import pdb
 
+
 class Get_json:
     """Class allowing to send request to the API"""
 
@@ -29,7 +30,9 @@ class Get_json:
             print(str(e))
             logging.exception("Exception occurred")
         except requests.exceptions.ConnectionError as e:
-            print("OOPS!! Connection Error. Make sure you are connected to Internet. Technical Details given below.\n")
+            print(
+                "OOPS!! Connection Error. Make sure you are connected to Internet. Technical Details given below.\n"
+            )
             print(str(e))
             logging.exception("Exception occurred")
         except requests.exceptions.Timeout as e:
@@ -58,7 +61,7 @@ class Google:
     def __init__(self):
         self.key = GOOGLE_API
         self.geocode_url = GEOCODE_URL
-        self.loc_data = {'status' : True}
+        self.loc_data = {"status": True}
 
     def geoloc(self, question):
         "Give coordinates and place_id of the user's query"
@@ -67,82 +70,72 @@ class Google:
         question_parsed = parsing.parse(question)
 
         payload = {
-            'key': self.key,
-            'address': question_parsed,
+            "key": self.key,
+            "address": question_parsed,
         }
-        
+
         response = Get_json(self.geocode_url, payload).get_json()
 
-
         try:
-            locate = response['results'][0]['geometry']['location']
-            address = response['results'][0]['formatted_address']
-            address_components = response['results'][0]['address_components']
+            locate = response["results"][0]["geometry"]["location"]
+            address = response["results"][0]["formatted_address"]
+            address_components = response["results"][0]["address_components"]
 
             for address in address_components:
-                if address['types'][0] == 'route':
-                    district = address['long_name']
+                if address["types"][0] == "route":
+                    district = address["long_name"]
 
         except IndexError as error:
             self.loc_data = {
-                'status': False,
-                'error': {
-                    'IndexError': str(error),
-                    'response': response,
-                }
+                "status": False,
+                "error": {"IndexError": str(error), "response": response,},
             }
             breakpoint()
             logging.exception("loc_data=\n{}".format(pf(self.loc_data)))
 
         except KeyError as error:
             self.loc_data = {
-                'status': False,
-                'error': {
-                    'KeyError': str(error),
-                    'response': response,
-                }
+                "status": False,
+                "error": {"KeyError": str(error), "response": response,},
             }
             logging.exception("loc_data=\n{}".format(pf(self.loc_data)))
-        
+
         except TypeError as error:
             self.loc_data = {
-                'status': False,
-                'error': {
-                    'TypeError': str(error),
-                    'response': response,
-                }
+                "status": False,
+                "error": {"TypeError": str(error), "response": response,},
             }
             logging.exception("loc_data=\n{}".format(pf(self.loc_data)))
 
         else:
-            if response['status'] == "OK":
-                return { 'locate': locate, 'district': district, 'address': address }
+            if response["status"] == "OK":
+                return {"locate": locate, "district": district, "address": address}
             else:
                 self.loc_data = {
-                    'status': False,
+                    "status": False,
                 }
 
-class WikiMedia:
 
+class WikiMedia:
     def __init__(self):
         self.wikipedia = MediaWiki()
         self.wikipedia.language = "fr"
-        self.wiki_data = {'status' : True}
+        self.wiki_data = {"status": True}
 
     def get_infos(self, query):
         try:
             titles = self.wikipedia.search(query)
             infos = self.wikipedia.page(titles[0])
-            
-            summary = infos.summarize(chars = 500)
+
+            summary = infos.summarize(chars=500)
             url = infos.url
             area = titles[0]
 
         except mediawiki.exceptions.DisambiguationError:
-            if len(titles)>0:
+            if len(titles) > 0:
                 try:
                     infos = self.wikipedia.page(titles[1])
-                    summary = infos.summarize(chars = 500)
+                    summary = infos.summarize(chars=500)
                     url = infos.url
                     area = titles[1]
 
@@ -157,4 +150,4 @@ class WikiMedia:
                 area = ""
                 logging.exception("Exception occurred")
 
-        return { 'summary': summary, 'url': url , 'area': area }
+        return {"summary": summary, "url": url, "area": area}
