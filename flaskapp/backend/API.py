@@ -133,12 +133,28 @@ class WikiMedia:
         try:
             titles = self.wikipedia.search(query)
             infos = self.wikipedia.page(titles[0])
+            
             summary = infos.summarize(chars = 500)
             url = infos.url
+            area = titles[0]
 
         except mediawiki.exceptions.DisambiguationError:
-            summary = ""
-            url = ""
-            logging.exception("Exception occurred")
+            if len(titles)>0:
+                try:
+                    infos = self.wikipedia.page(titles[1])
+                    summary = infos.summarize(chars = 500)
+                    url = infos.url
+                    area = titles[1]
 
-        return { 'summary': summary, 'url': url }
+                except mediawiki.exceptions.DisambiguationError:
+                    summary = ""
+                    url = ""
+                    area = ""
+                    logging.exception("Exception occurred")
+            else:
+                summary = ""
+                url = ""
+                area = ""
+                logging.exception("Exception occurred")
+
+        return { 'summary': summary, 'url': url , 'area': area }
