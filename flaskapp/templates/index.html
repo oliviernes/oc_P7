@@ -31,22 +31,29 @@ rel="stylesheet">
                             <label label for="question"></label>
                             <input type="test" id="question" class="forms" name="Question" placeholder="Pose ta question ici">
                             <input type="submit" value="Envoyer">
+                            <!-- <div id="spin" class="spinner-border"></div> -->
                         </p>
                     </form>
                 </div>
                 <div class="col-lg-1 col-lg-push-2">
                     <div id="spin" class="spinner-border"></div>
+                    <!-- <div id="spin" style="display:none;"></div> -->
                 </div>
             </div>
-            <div id='map' class="offset-lg-2 col-lg-10" style='width: 400px; height: 300px;'></div>
+            <!-- Begin Javascript insert -->
+            <div id='papybot'></div>
+            <div id='mapbot'></div>
+            <div id='wikibot'></div>
+            <!-- End Javascript insert -->
+            <!-- <div id='map' class="offset-lg-2 col-lg-10" style='width: 400px; height: 300px;'></div> -->
                 <script>
                     mapboxgl.accessToken = "{{MAPBOX_KEY}}";
-                    var map = new mapboxgl.Map({
-                        container: 'map',
-                        center: [2.3505517, 48.8747265],
-                        style: 'mapbox://styles/mapbox/streets-v11',
-                        zoom: 15,
-                    });
+                    // var map = new mapboxgl.Map({
+                    //     container: 'map',
+                    //     center: [2.3505517, 48.8747265],
+                    //     style: 'mapbox://styles/mapbox/streets-v11',
+                    //     zoom: 15,
+                    // });
                 </script>
         </div>
         <footer class="container-fluid">

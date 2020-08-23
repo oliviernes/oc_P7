@@ -29,6 +29,10 @@ a
     margin-bottom: 100px; */
 }
 
-.spinner-border{
-	display:none
+/* .spinner-border{
+	display: none;
+} */
+
+#spin{
+    visibility: hidden;
 }
