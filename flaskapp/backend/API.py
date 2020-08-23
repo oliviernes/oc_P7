@@ -81,13 +81,14 @@ class Google:
             locate = response["results"][0]["geometry"]["location"]
             address = response["results"][0]["formatted_address"]
             address_components = response["results"][0]["address_components"]
-
+            
             for add in address_components:
                 if add["types"][0] == "route":
                     district = add["long_name"]
+                    break
                 elif add["types"][0] == "locality":
                     district = add["long_name"]
-
+    
         except IndexError as error:
             self.loc_data = {
                 "status": False,
@@ -128,9 +129,9 @@ class WikiMedia:
         try:
             titles = self.wikipedia.search(query)
             infos = self.wikipedia.page(titles[0])
+            summary = self.wikipedia.summary(titles[0], sentences=3)
 
-            summary = infos.summarize(chars=700)
-
+            """Add regex  to remove == string == in summary:"""
             summary = re.sub(r"={2}\s.+={2}", r"", summary)
 
             url = infos.url
@@ -140,7 +141,7 @@ class WikiMedia:
             if len(titles) > 0:
                 try:
                     infos = self.wikipedia.page(titles[1])
-                    summary = infos.summarize(chars=700)
+                    summary = self.wikipedia.summary(titles[1], sentences=3)
                     summary = re.sub(r"={2}\s.+={2}", r"", summary)
                     url = infos.url
                     area = titles[1]
