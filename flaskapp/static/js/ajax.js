@@ -10,7 +10,9 @@ form.addEventListener('submit', function(event){
     })
     .then(response => response.json())
     .then(response => {
-        // alert(response['locate'].lat);
+        let questionElt = document.createElement('div');
+        questionElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h1>${ response['question'] }</h1></div>` 
+        document.getElementById('questionbot').appendChild(questionElt)
         const papybotElt = document.getElementById('papybot');
         papybotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h1>${response['messages'][0]} ${response['address']}</h1></div>` 
         const mapbotElt = document.getElementById('mapbot');

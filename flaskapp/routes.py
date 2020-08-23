@@ -35,6 +35,7 @@ def ajax():
                         "summary": infos_wiki["summary"],
                         "url": infos_wiki["url"],
                         "messages": messages,
+                        "question": question,
                     }
                 )
             else:
