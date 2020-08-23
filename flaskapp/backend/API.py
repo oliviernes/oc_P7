@@ -76,16 +76,16 @@ class Google:
 
         response = Get_json(self.geocode_url, payload).get_json()
 
-        breakpoint()
-
         try:
             locate = response["results"][0]["geometry"]["location"]
             address = response["results"][0]["formatted_address"]
             address_components = response["results"][0]["address_components"]
 
-            for address in address_components:
-                if address["types"][0] == "route":
-                    district = address["long_name"]
+            for add in address_components:
+                if add["types"][0] == "route":
+                    district = add["long_name"]
+                elif add["types"][0] == "locality":
+                    district = add["long_name"]
 
         except IndexError as error:
             self.loc_data = {
