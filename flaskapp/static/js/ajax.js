@@ -13,20 +13,35 @@ form.addEventListener('submit', function(event){
         let questionElt = document.createElement('div');
         questionElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h1>${ response['question'] }</h1></div>` 
         document.getElementById('questionbot').appendChild(questionElt)
-        const papybotElt = document.getElementById('papybot');
-        papybotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h1>${response['messages'][0]} ${response['address']}</h1></div>` 
         const mapbotElt = document.getElementById('mapbot');
-        mapbotElt.innerHTML = `<div id='map' class="offset-lg-2 col-lg-10" style='width: 1000px; height: 300px;'></div>`;            
+        const papybotElt = document.getElementById('papybot');
         const wikibotElt = document.getElementById('wikibot');
-        wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><p>${response['messages'][1]} ${response['summary']}</p></div>` 
-        let lati = response['locate'].lat;
-        let long = response['locate'].lng;
-        var map = new mapboxgl.Map({
-            container: 'map',
-            center: [ long, lati ],
-            style: 'mapbox://styles/mapbox/streets-v11',
-            zoom: 15,
-        }); 
+
+        if (response['address']) {
+            
+            mapbotElt.innerHTML = `<div id='map' class="offset-lg-2 col-lg-10" style='width: 1000px; height: 300px;'></div>`;            
+            let lati = response['locate'].lat;
+            let long = response['locate'].lng;    
+            var map = new mapboxgl.Map({
+                container: 'map',
+                center: [ long, lati ],
+                style: 'mapbox://styles/mapbox/streets-v11',
+                zoom: 15,
+            });
+            
+            papybotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h1>${response['messages'][0]} ${response['address']}</h1></div>`
+            if (response['summary']) {
+                wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><p>${response['messages'][1]} ${response['summary']}</p></div>` 
+            }
+            else {
+                wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><p>${response['messages'][1]}</p></div>` 
+            }
+        }
+        else {
+            mapbotElt.innerHTML = `<div class="offset-lg-2 col-lg-10" ></div>`;
+            papybotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h1>${response['messages']}</h1></div>`;
+            wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"></div>`;
+        }
     })
     // .then(spinner => {
     //     spinner.style.visibility="hidden"

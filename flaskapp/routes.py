@@ -45,14 +45,15 @@ def ajax():
                         "locate": locate["locate"],
                         "address": locate["address"],
                         "messages": messages,
+                        "question": question,
                     }
                 )
         else:
             messages.append(message.negative_addresse())
-            return jsonify({ "messages": messages})
+            return jsonify({ "messages": messages, "question": question,})
     else:
         messages.append("Mais pose donc une question!!")
-        return jsonify({ "messages": messages})
+        return jsonify({ "messages": messages} )
 
 
 @app.route("/")
