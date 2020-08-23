@@ -31,7 +31,7 @@ form.addEventListener('submit', function(event){
             
             papybotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h1>${response['messages'][0]} ${response['address']}</h1></div>`
             if (response['summary']) {
-                wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><p>${response['messages'][1]} ${response['summary']}</p></div>` 
+                wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><p>${response['messages'][1]} ${response['summary']} [<a href="${response['url']}">En savoir plus sur Wikipedia</a>]</p></div>` 
             }
             else {
                 wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><p>${response['messages'][1]}</p></div>` 
@@ -53,29 +53,3 @@ function display(){
     spinner.style.visibility="hidden"
     console.log("Ajax fonctionne");
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// let map = document.createElement("div")
-
-// function initMap() {
-//     map = new google.maps.Map(document.getElementById("map"), {
-//       center: {
-//         lat: -34.397,
-//         lng: 150.644
-//       },
-//       zoom: 8
-//     });
-//   }
