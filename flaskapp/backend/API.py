@@ -128,7 +128,22 @@ class WikiMedia:
             titles = self.wikipedia.search(query)
             infos = self.wikipedia.page(titles[0])
 
-            summary = infos.summarize(chars=500)
+            summary = infos.summarize(chars=700)
+            summary = summary.split("=")
+
+            ln = len(summary)
+
+            n=0
+
+            while n < ln-2:
+                if summary[n] == summary[n+2] == '':
+                    del summary[n+1]
+                    ln-=1
+                n+=1
+
+            summary = list(filter(None, summary))
+            summary= "".join(summary)
+
             url = infos.url
             area = titles[0]
 
