@@ -4,13 +4,13 @@ body
     color: white;
 }
 
-[class*="col-"]{
+/* [class*="col-"]{
     background-color: lightgreen;
     border: 2px solid black;
     border-radius: 6px;
     line-height: 40px;
     text-align: center;
-}
+} */
 
 a
 {
@@ -23,15 +23,10 @@ a
 
 #map{
     height: 100%;
-    /* display: none; */
     position: relative;
-    /* padding-bottom: 70px;
-    margin-bottom: 100px; */
+    margin-bottom: 20px;
+    top: 0; bottom: 0; width: 100%;
 }
-
-/* .spinner-border{
-	display: none;
-} */
 
 #spin{
     visibility: hidden;

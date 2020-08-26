@@ -19,7 +19,7 @@ form.addEventListener('submit', function(event){
 
         if (response['address']) {
             
-            mapbotElt.innerHTML = `<div id='map' class="offset-lg-2 col-lg-10" style='width: 1000px; height: 300px;'></div>`;            
+            mapbotElt.innerHTML = `<div id='map' class="offset-lg-2 col-lg-10" style='width: 1000px; height: 400px;'></div>`;            
             let lati = response['locate'].lat;
             let long = response['locate'].lng;    
             var map = new mapboxgl.Map({
@@ -28,6 +28,9 @@ form.addEventListener('submit', function(event){
                 style: 'mapbox://styles/mapbox/streets-v11',
                 zoom: 15,
             });
+            var marker = new mapboxgl.Marker()
+                .setLngLat([ long, lati ])
+                .addTo(map);
             
             papybotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h1>${response['messages'][0]} ${response['address']}</h1></div>`
             if (response['summary']) {
@@ -51,5 +54,4 @@ form.addEventListener('submit', function(event){
 
 function display(){
     spinner.style.visibility="hidden"
-    console.log("Ajax fonctionne");
 }
