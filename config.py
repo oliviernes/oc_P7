@@ -8,7 +8,7 @@ class Config(object):
     SECRET_KEY = os.environ.get("SECRET_KEY") or "you-will-never-guess"
 
 
-EXTRA_WORDS = ["bonjour", "dis", "sais", "grandpy", "propos", "raconte", "salut"]
+EXTRA_WORDS = ["bonjour", "dis", "sais", "grandpy", "propos", "raconte", "salut", "est-ce", "connais", "adresse"]
 
 STOP_WORDS = [
     "a",
