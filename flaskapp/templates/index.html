@@ -14,44 +14,48 @@ rel="stylesheet">
         <div class="container">
             <div class="row">
                 <div class="col-lg-2"><img src={{url_for('static', filename='img/agecanonix.png')}} /></div>
-                <div id="grandpy_title" class="col-lg-10"><h1> Grandpy Bot </h1></div>
+                <div id="grandpy_title" class="col-lg-10">
+                    <div><h1> Grandpy Bot </h1></div>
+                    <div>
+                        <h1>Le papy traveler qui raconte sa vie</h1>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
-        <div class="container">
-            <div class="row">
-                <div class="offset-lg-2 col-lg-10">
-                    <h1>La papy traveler qui raconte sa vie</h1>
+        <div id="cont" class="container">
+            <br>
+            <section id ="dialogBot" class="border rounded shadow bg-white">
+                <div id="question-bar" class="row">
+                    <div class="col-lg-11">
+                        <form id='formi'>
+                            <p>
+                                <label label for="question" style="font-size: 1.3em;">Pose ta question à ton papyBot:</label>
+                                <input size="54" type="test" id="question" class="forms" name="Question" placeholder="Pose ta question ici">
+                                <input type="submit" value="Envoyer">
+                                <!-- <div id="spin" class="spinner-border"></div> -->
+                            </p>
+                        </form>
+                    </div>
+                    <div class="col-lg-1 col-lg-push-2">
+                        <div id="spin" class="spinner-border"></div>
+                        <!-- <div id="spin" style="display:none;"></div> -->
+                    </div>
                 </div>
+                <!-- Begin Javascript insert -->
+                <div id="question-last-bot" ></div>
+                <div id="questionbot"></div>
+                <div id="papybot"></div>
+                <div id="mapbot"></div>
+                <div id="wikibot"></div>
+                <!-- End Javascript insert -->
+                    <script>
+                        mapboxgl.accessToken = "{{MAPBOX_KEY}}";
+                    </script>
             </div>
-            <div class="row">
-                <div class="offset-lg-4 col-lg-5">
-                    <form id='formi'>
-                        <p>
-                            <label label for="question"></label>
-                            <input type="test" id="question" class="forms" name="Question" placeholder="Pose ta question ici">
-                            <input type="submit" value="Envoyer">
-                            <!-- <div id="spin" class="spinner-border"></div> -->
-                        </p>
-                    </form>
-                </div>
-                <div class="col-lg-1 col-lg-push-2">
-                    <div id="spin" class="spinner-border"></div>
-                    <!-- <div id="spin" style="display:none;"></div> -->
-                </div>
-            </div>
-            <!-- Begin Javascript insert -->
-            <div id='questionbot'></div>
-            <div id='papybot'></div>
-            <div id='mapbot'></div>
-            <div id='wikibot'></div>
-            <!-- End Javascript insert -->
-                <script>
-                    mapboxgl.accessToken = "{{MAPBOX_KEY}}";
-                </script>
-        </div>
-        <footer class="container-fluid">
-            <p> Olivier. Le code est situé ici: <a href="https://github.com/oliviernes/oc_P7"> Github</a></p>
+        </section>
+            <footer class="container-fluid">
+            <p id="code"> Olivier. Le code est situé ici: <a href="https://github.com/oliviernes/oc_P7"> Github</a></p>
         </footer>
         <script type="text/javascript" src={{url_for('static', filename='js/ajax.js')}}></script>
     </body>
