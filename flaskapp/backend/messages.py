@@ -13,7 +13,7 @@ class Message:
             'positive_wiki': [
                 "Mais t'ai-je déjà raconté l'histoire de ce quartier qui m'a vu en culottes courtes ?",
                 "Je connais très bien, on y est allé plein de fois avec ta Mamy. Je t'en dis plus:",
-                "J'y suis allé quand j'étais jeune, il y a une 60 ans:"
+                "J'y suis allé quand j'étais jeune, il y a 60 ans!:"
             ],
             'negative_addresse': [
                 "Je ne comprend pas ta question. Parle moi mieux que ça!",
