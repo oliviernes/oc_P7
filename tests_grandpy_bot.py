@@ -32,10 +32,12 @@ class TestAPI:
         results = {
             "results": [
                 {
-                    "place_id": "ChIJxfB-lhRu5kcRfK7MP5oTfH8",
                     "geometry": {"location": {"lat": 48.8747265, "lng": 2.3505517}},
+                    "formatted_address": "7 Cité Paradis, 75010 Paris, France",
+                    "address_components": [{'long_name': '7', 'short_name': '7', 'types': ['street_number']}, {'long_name': 'Cité Paradis', 'short_name': 'Cité Paradis', 'types': ['route']}, {'long_name': 'Paris', 'short_name': 'Paris', 'types': ['locality', 'political']}, {'long_name': 'Arrondissement de Paris', 'short_name': 'Arrondissement de Paris', 'types': ['administrative_area_level_2', 'political']}, {'long_name': 'Île-de-France', 'short_name': 'IDF', 'types': ['administrative_area_level_1', 'political']}, {'long_name': 'France', 'short_name': 'FR', 'types': ['country', 'political']}, {'long_name': '75010', 'short_name': '75010', 'types': ['postal_code']}],
                 }
             ],
+            "status": "OK"
         }
 
         mocker.patch("flaskapp.backend.API.Get_json.get_json", return_value=results)
@@ -44,26 +46,9 @@ class TestAPI:
 
         assert goggle.geoloc("openclassrooms") == {
             "locate": {"lat": 48.8747265, "lng": 2.3505517},
-            "place_id": "ChIJxfB-lhRu5kcRfK7MP5oTfH8",
-        }
-
-    def test_detail_return(self, mocker):
-        result = {
-            "result": {
-                "formatted_address": "7 Cité Paradis, 75010 Paris, France",
-                "rating": "3.3",
-                "geometry": {"location": {"lat": 48.8747265, "lng": 2.3505517}},
-            }
-        }
-
-        mocker.patch("flaskapp.backend.API.Get_json.get_json", return_value=result)
-
-        goggle = Google()
-
-        assert goggle.detail("openclassrooms") == {
             "address": "7 Cité Paradis, 75010 Paris, France",
-            "rating": "3.3",
-            "coordinates": {"lat": 48.8747265, "lng": 2.3505517},
+            "district": "Cité Paradis",
         }
 
     # def test_get_infos(self, mocker):
+        
