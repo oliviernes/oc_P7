@@ -81,6 +81,7 @@ class Google:
             locate = response["results"][0]["geometry"]["location"]
             address = response["results"][0]["formatted_address"]
             address_components = response["results"][0]["address_components"]
+            district = "llkdsoisqz54"
             
             for add in address_components:
                 if add["types"][0] == "route":
@@ -88,7 +89,7 @@ class Google:
                     break
                 elif add["types"][0] == "locality":
                     district = add["long_name"]
-    
+            
         except IndexError as error:
             self.loc_data = {
                 "status": False,
@@ -128,17 +129,26 @@ class WikiMedia:
     def get_infos(self, query):
         try:
             titles = self.wikipedia.search(query)
-            infos = self.wikipedia.page(titles[0])
-            summary = self.wikipedia.summary(titles[0], sentences=3)
+            if len(titles) > 0:
+                infos = self.wikipedia.page(titles[0])
+                summary = self.wikipedia.summary(titles[0], sentences=3)
 
-            """Add regex  to remove == string == in summary:"""
-            summary = re.sub(r"={2}\s.+={2}", r"", summary)
+                """Add regex  to remove == string == in summary:"""
+                summary = re.sub(r"={2}\s.+={2}", r"", summary)
 
-            url = infos.url
-            area = titles[0]
+                url = infos.url
+                # ############## Delete area ! ###############
+                area = titles[0]
+
+            else:
+                summary = ""
+                url = ""
+                area = ""
+                self.wiki_data = {"status": False}
+                
 
         except mediawiki.exceptions.DisambiguationError:
-            if len(titles) > 0:
+            if len(titles) > 1:
                 try:
                     infos = self.wikipedia.page(titles[1])
                     summary = self.wikipedia.summary(titles[1], sentences=3)
