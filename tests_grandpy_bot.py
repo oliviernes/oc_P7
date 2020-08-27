@@ -24,6 +24,12 @@ def test_parser_STOP_WORDS_only():
 
     assert phrase_parsed.parse(adresse) == ""
 
+def test_parser_apostrophe():
+    adresse = "Bonjour Grandpy, dis moi ce que tu sais à propos d'Openclassrooms"
+    phrase_parsed = Parser()
+
+    assert phrase_parsed.parse(adresse) == "openclassrooms"
+
 
 class TestAPI:
     """Test the API response management."""
