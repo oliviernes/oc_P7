@@ -1,16 +1,8 @@
 body
 {
-    background-color: blue;
+    background-color: #e8ecf1;
     color: white;
 }
-
-/* [class*="col-"]{
-    background-color: lightgreen;
-    border: 2px solid black;
-    border-radius: 6px;
-    line-height: 40px;
-    text-align: center;
-} */
 
 a
 {
@@ -19,7 +11,25 @@ a
 
 #grandpy_title{
     padding-top: 40px;
+    color: #19a6e1;
+    text-align: center;
+    font-weight: bold;
 }
+
+h1{
+    font-weight: bold;
+}
+
+#cont{
+    color: #19a6e1;
+}
+
+.box {
+    background: #19a6e1;
+    border-radius: 0.5rem;
+    padding: 5px;
+    color: #fff;
+  }
 
 #map{
     height: 100%;
@@ -30,4 +40,8 @@ a
 
 #spin{
     visibility: hidden;
+}
+
+#code {
+    color: #000;
 }
