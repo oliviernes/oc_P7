@@ -140,7 +140,9 @@ class WikiMedia:
                 summary = re.sub(r"={2}\s.+={2}", r"", summary)
 
                 url = infos.url
+            
             """Return empty results if no titles are return from the API"""
+
             else:
                 summary = ""
                 url = ""

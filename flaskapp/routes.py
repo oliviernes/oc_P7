@@ -23,10 +23,10 @@ def ajax():
         question = request.form["Question"]
         locate = google.geoloc(question)
 
-        if google.loc_data['status']:
+        if google.loc_data["status"]:
             infos_wiki = wiki.get_infos(locate["district"])
             messages.append(message.positive_address())
-            if wiki.wiki_data['status']:
+            if wiki.wiki_data["status"]:
                 messages.append(message.positive_wiki())
                 return jsonify(
                     {
@@ -50,10 +50,10 @@ def ajax():
                 )
         else:
             messages.append(message.negative_addresse())
-            return jsonify({ "messages": messages, "question": question,})
+            return jsonify({"messages": messages, "question": question,})
     else:
         messages.append("Mais pose donc une question!!")
-        return jsonify({ "messages": messages, "question": "",} )
+        return jsonify({"messages": messages, "question": "",})
 
 
 @app.route("/")
