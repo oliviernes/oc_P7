@@ -22,9 +22,10 @@ class Get_json:
         self.params = params
 
     def get_json(self):
-
+        """Method to request the API"""
         try:
             req = requests.get(self.url, self.params, timeout=20)
+            """returns an HTTPError object if an error has occurred during the process."""
             req.raise_for_status()
         except requests.exceptions.HTTPError as e:
             print("An HTTP error occurred.")
@@ -57,7 +58,7 @@ class Get_json:
 
 
 class Google:
-    """Google Maps and place APIs class"""
+    """Google Maps Geocode API class"""
 
     def __init__(self):
         self.key = GOOGLE_API
@@ -65,7 +66,7 @@ class Google:
         self.loc_data = {"status": True}
 
     def geoloc(self, question):
-        "Give coordinates and place_id of the user's query"
+        "Give coordinates and informations of the user's query"
 
         parsing = Parser()
         question_parsed = parsing.parse(question)
@@ -121,12 +122,14 @@ class Google:
 
 
 class WikiMedia:
+    """Wikipedia class"""
     def __init__(self):
         self.wikipedia = MediaWiki()
         self.wikipedia.language = "fr"
         self.wiki_data = {"status": True}
 
     def get_infos(self, query):
+        """Method allowing to retrieve informations from wikipedia.fr"""
         try:
             titles = self.wikipedia.search(query)
             if len(titles) > 0:
@@ -137,14 +140,14 @@ class WikiMedia:
                 summary = re.sub(r"={2}\s.+={2}", r"", summary)
 
                 url = infos.url
-
+            """Return empty results if no titles are return from the API"""
             else:
                 summary = ""
                 url = ""
-                area = ""
                 self.wiki_data = {"status": False}
-                
 
+        """Use one except block in case of disambiguations errors. Allow to search for the next
+         title if the first one lead to a disambiguation error."""
         except mediawiki.exceptions.DisambiguationError:
             if len(titles) > 1:
                 try:
