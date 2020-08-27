@@ -137,8 +137,6 @@ class WikiMedia:
                 summary = re.sub(r"={2}\s.+={2}", r"", summary)
 
                 url = infos.url
-                # ############## Delete area ! ###############
-                area = titles[0]
 
             else:
                 summary = ""
@@ -154,19 +152,16 @@ class WikiMedia:
                     summary = self.wikipedia.summary(titles[1], sentences=3)
                     summary = re.sub(r"={2}\s.+={2}", r"", summary)
                     url = infos.url
-                    area = titles[1]
 
                 except mediawiki.exceptions.DisambiguationError:
                     summary = ""
                     url = ""
-                    area = ""
                     self.wiki_data = {"status": False}
                     logging.exception("Exception occurred")
             else:
                 summary = ""
                 url = ""
-                area = ""
                 self.wiki_data = {"status": False}
                 logging.exception("Exception occurred")
 
-        return {"summary": summary, "url": url, "area": area}
+        return {"summary": summary, "url": url}
