@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+"""Module to parse user's questions"""
 
-import unidecode
 import re
-import pdb
+import unidecode
 
 from config import EXTRA_WORDS, STOP_WORDS
 
@@ -20,6 +18,7 @@ class Parser:
         phrase_lower = phrase_no_accents.lower()
         phrase_alphanum = re.sub("[^A-Za-z0-9-]+", " ", phrase_lower)
         phrase_sliced = phrase_alphanum.split()
-        words = [word for word in phrase_sliced if word not in self.erase_words]
+        words = [
+            word for word in phrase_sliced if word not in self.erase_words]
         search_words = " ".join(words)
         return search_words

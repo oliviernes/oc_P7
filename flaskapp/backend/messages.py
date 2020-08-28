@@ -1,8 +1,10 @@
+"""Module to display Grandpy's messages"""
+
 from random import choice as rand
 
 
 class Message:
-    """Set Grandpy messages according to API response """
+    """Set Grandpy messages according to API responses """
 
     def __init__(self):
         self.phrase = {
@@ -12,8 +14,10 @@ class Message:
                 "Ma mémoire ne me faillit jamais! Voici l'adresse:",
             ],
             "positive_wiki": [
-                "Mais t'ai-je déjà raconté l'histoire de ce quartier qui m'a vu en culottes courtes ?",
-                "Je connais très bien, on y est allé plein de fois avec ta Mamy. Je t'en dis plus:",
+                "Mais t'ai-je déjà raconté l'histoire de ce quartier"
+                " qui m'a vu en culottes courtes ?",
+                "Je connais très bien, on y est allé plein de fois avec"
+                " ta Mamy. Je t'en dis plus:",
                 "J'y suis allé quand j'étais jeune, il y a 60 ans!:",
             ],
             "negative_addresse": [
@@ -23,18 +27,35 @@ class Message:
             ],
             "negative_wiki": [
                 "Je ne connais que l'adresse...",
-                "Pas d'histoire à te raconter... Je connais pas tout non plus!",
+                "Pas d'histoire à te raconter... "
+                "Je connais pas tout non plus!",
             ],
         }
 
     def positive_address(self):
+        """
+        Method to display messages in case of an
+         address return by Google's API
+        """
         return rand(self.phrase["positive_address"])
 
     def positive_wiki(self):
+        """
+        Method to display messages in case of
+         informations return by Wikipedia's API
+        """
         return rand(self.phrase["positive_wiki"])
 
     def negative_addresse(self):
+        """
+        Method to display messages in case of no
+         address return by Google's API
+        """
         return rand(self.phrase["negative_addresse"])
 
     def negative_wiki(self):
+        """
+        Method to display messages in case of no
+         informations return by Wikipedia's API
+        """
         return rand(self.phrase["negative_wiki"])

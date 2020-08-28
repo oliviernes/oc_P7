@@ -1,49 +1,51 @@
+"""Module getting informations from APIs"""
+
+import re
+import logging
+from pprint import pformat as pf
 import requests
-from flaskapp.backend.parser import Parser
-from config import GEOCODE_URL, GOOGLE_API
 from mediawiki import MediaWiki
 import mediawiki
 import simplejson
-from pprint import pformat as pf
-import re
+from flaskapp.backend.parser import Parser
+from config import GEOCODE_URL, GOOGLE_API
 
-import logging
 
 logger = logging.getLogger()
 
-import pdb
 
-
-class Get_json:
-    """Class allowing to send request to the API"""
+class GetJson:
+    """Class allowing to send request to the API."""
 
     def __init__(self, url, params):
         self.url = url
         self.params = params
 
     def get_json(self):
-        """Method to request the API"""
+        """Method to request the API."""
         try:
             req = requests.get(self.url, self.params, timeout=20)
-            """returns an HTTPError object if an error has occurred during the process."""
+            """returns an HTTPError object if an error has occurred
+             during the process."""
             req.raise_for_status()
-        except requests.exceptions.HTTPError as e:
+        except requests.exceptions.HTTPError as error:
             print("An HTTP error occurred.")
-            print(str(e))
+            print(str(error))
             logging.exception("Exception occurred")
-        except requests.exceptions.ConnectionError as e:
+        except requests.exceptions.ConnectionError as error:
             print(
-                "OOPS!! Connection Error. Make sure you are connected to Internet. Technical Details given below.\n"
+                "OOPS!! Connection Error. Make sure you are connected"
+                " to Internet. Technical Details given below.\n"
             )
-            print(str(e))
+            print(str(error))
             logging.exception("Exception occurred")
-        except requests.exceptions.Timeout as e:
+        except requests.exceptions.Timeout as error:
             print("OOPS!! Timeout Error")
-            print(str(e))
+            print(str(error))
             logging.exception("Exception occurred")
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.RequestException as error:
             print("OOPS!! General Error")
-            print(str(e))
+            print(str(error))
             logging.exception("Exception occurred")
         except KeyboardInterrupt:
             print("Someone closed the program")
@@ -58,7 +60,7 @@ class Get_json:
 
 
 class Google:
-    """Google Maps Geocode API class"""
+    """Google Maps Geocode API class."""
 
     def __init__(self):
         self.key = GOOGLE_API
@@ -66,7 +68,7 @@ class Google:
         self.loc_data = {"status": True}
 
     def geoloc(self, question):
-        "Give coordinates and informations of the user's query"
+        """Give coordinates and informations of the user's query."""
 
         parsing = Parser()
         question_parsed = parsing.parse(question)
@@ -76,60 +78,64 @@ class Google:
             "address": question_parsed,
         }
 
-        response = Get_json(self.geocode_url, payload).get_json()
+        response = GetJson(self.geocode_url, payload).get_json()
 
         try:
             locate = response["results"][0]["geometry"]["location"]
             address = response["results"][0]["formatted_address"]
             address_components = response["results"][0]["address_components"]
             district = "llkdsoisqz54"
-            
+
             for add in address_components:
                 if add["types"][0] == "route":
                     district = add["long_name"]
                     break
                 elif add["types"][0] == "locality":
                     district = add["long_name"]
-            
+
         except IndexError as error:
             self.loc_data = {
                 "status": False,
-                "error": {"IndexError": str(error), "response": response,},
+                "error": {"IndexError": str(error), "response": response, },
             }
             logging.exception(f"loc_data=\n{pf(self.loc_data)}")
 
         except KeyError as error:
             self.loc_data = {
                 "status": False,
-                "error": {"KeyError": str(error), "response": response,},
+                "error": {"KeyError": str(error), "response": response, },
             }
             logging.exception(f"loc_data=\n{pf(self.loc_data)}")
 
         except TypeError as error:
             self.loc_data = {
                 "status": False,
-                "error": {"TypeError": str(error), "response": response,},
+                "error": {"TypeError": str(error), "response": response, },
             }
             logging.exception(f"loc_data=\n{pf(self.loc_data)}")
 
         else:
             if response["status"] == "OK":
-                return {"locate": locate, "district": district, "address": address}
-            else:
-                self.loc_data = {
-                    "status": False,
+                return {
+                    "locate": locate,
+                    "district": district,
+                    "address": address
                 }
+            self.loc_data = {
+                "status": False,
+            }
 
 
 class WikiMedia:
-    """Wikipedia class"""
+    """Wikipedia class."""
+
     def __init__(self):
         self.wikipedia = MediaWiki()
         self.wikipedia.language = "fr"
         self.wiki_data = {"status": True}
 
     def get_infos(self, query):
-        """Method allowing to retrieve informations from wikipedia.fr"""
+        """Method allowing to retrieve informations from wikipedia.fr."""
         try:
             titles = self.wikipedia.search(query)
             if len(titles) > 0:
@@ -140,16 +146,12 @@ class WikiMedia:
                 summary = re.sub(r"={2}\s.+={2}", r"", summary)
 
                 url = infos.url
-            
-            """Return empty results if no titles are return from the API"""
 
             else:
                 summary = ""
                 url = ""
                 self.wiki_data = {"status": False}
 
-        """Use one except block in case of disambiguations errors. Allow to search for the next
-         title if the first one lead to a disambiguation error."""
         except mediawiki.exceptions.DisambiguationError:
             if len(titles) > 1:
                 try:
