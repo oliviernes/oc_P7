@@ -44,7 +44,7 @@ form.addEventListener('submit', function(event){
 
         if (response['address']) {
             
-            mapbotElt.innerHTML = `<div id='map' class="offset-lg-2 col-lg-10" style='width: 1000px; height: 400px;'></div>`;            
+            mapbotElt.innerHTML = `<div id='map' class="offset-lg-2 col-lg-10 col-md-8 offset-sm-2 col-sm-6 offset-xs-1 col_xs_10" style='width: 600px; height: 400px;'></div>`;
             let lati = response['locate'].lat;
             let long = response['locate'].lng;    
             var map = new mapboxgl.Map({
@@ -59,7 +59,7 @@ form.addEventListener('submit', function(event){
             
             papybotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h2>${response['messages'][0]} ${response['address']}</h2></div>`
             if (response['summary']) {
-                wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><p>${response['messages'][1]} ${response['summary']} [<a href="${response['url']}">En savoir plus sur Wikipedia</a>]</p></div>` 
+                wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10 offset-md-2 col-md-6 offset-sm-2 col-sm-6 col-xs-6"><p>${response['messages'][1]} ${response['summary']} [<a href="${response['url']}">En savoir plus sur Wikipedia</a>]</p></div>`
             }
             else {
                 wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><p>${response['messages'][1]}</p></div>` 
