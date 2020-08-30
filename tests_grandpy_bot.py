@@ -83,7 +83,7 @@ class TestAPI:
             "status": "OK",
         }
 
-        mocker.patch("flaskapp.backend.API.Get_json.get_json", return_value=results)
+        mocker.patch("flaskapp.backend.API.GetJson.get_json", return_value=results)
 
         goggle = Google()
 
@@ -96,7 +96,7 @@ class TestAPI:
     def test_geoloc_bad_result(self, mocker):
         results = {"results": [{"bad result": "no valid data",}], "status": "OK"}
 
-        mocker.patch("flaskapp.backend.API.Get_json.get_json", return_value=results)
+        mocker.patch("flaskapp.backend.API.GetJson.get_json", return_value=results)
 
         goggle = Google()
         goggle.geoloc("bad_answer")
