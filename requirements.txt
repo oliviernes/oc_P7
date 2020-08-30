@@ -3,3 +3,4 @@ flask
 requests
 pymediawiki
 simplejson
+gunicorn==20.0.4
