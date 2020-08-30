@@ -4,8 +4,10 @@
 import os
 
 
-class Config(object):
-    SECRET_KEY = os.environ.get("SECRET_KEY") or "you-will-never-guess"
+GOOGLE_API = os.environ.get("GOOGLE_API_KEY")
+MAPBOX_API = os.environ.get("MAPBOX_API_KEY")
+
+GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json"
 
 
 EXTRA_WORDS = [
@@ -630,7 +632,3 @@ STOP_WORDS = [
     "ô",
 ]
 
-GOOGLE_API = os.environ.get("GOOGLE_API_KEY")
-MAPBOX_API = os.environ.get("MAPBOX_API_KEY")
-
-GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json"
