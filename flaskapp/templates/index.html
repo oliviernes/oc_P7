@@ -5,17 +5,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 rel="stylesheet">
-        <link rel="stylesheet" href={{url_for('static', filename='css/styles.css')}} />
+        <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}" />
         <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
         <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
-        <link rel="icon" href={{ url_for('static', filename='img/agecanonix-icon.png')}}>
+        <link rel="icon" href="{{ url_for('static', filename='img/agecanonix-icon.png')}}">
         <title>Grandpy bot</title>
     </head>
     <body>
     <header>
         <div class="container">
             <div class="row">
-                <div class="col-lg-2 col-md-2 col-sm-12 col_xs_12"><img src={{url_for('static', filename='img/agecanonix.png')}} /></div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col_xs_12"><img src="{{url_for('static', filename='img/agecanonix.png')}}" /></div>
                 <div id="grandpy_title" class="col-lg-10 col-md-10 col-sm-12 col_xs_12">
                     <div><h1> Grandpy Bot </h1></div>
                     <div>
@@ -58,6 +58,6 @@ rel="stylesheet">
             <footer class="container-fluid">
             <p id="code"> Olivier. Le code est situé ici: <a href="https://github.com/oliviernes/oc_P7"> Github</a></p>
         </footer>
-        <script type="text/javascript" src={{url_for('static', filename='js/ajax.js')}}></script>
+        <script type="text/javascript" src="{{url_for('static', filename='js/ajax.js')}}"></script>
     </body>
 </html>
