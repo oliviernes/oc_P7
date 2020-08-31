@@ -14,7 +14,7 @@ The `Procfile` provided allows to deploy the program on heroku.
 
 # How to run the program:
 
-You have to get a [link MapBox API key](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/) and  a [link GoogleMap API key](https://developers.google.com/maps/documentation/geocoding/get-api-key)
+You have to get a [MapBox API key](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/) and  a [GoogleMap API key](https://developers.google.com/maps/documentation/geocoding/get-api-key)
 
 Then, you have to store these keys as environment variables.
 
