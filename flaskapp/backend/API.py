@@ -142,7 +142,7 @@ class WikiMedia:
                 infos = self.wikipedia.page(titles[0])
                 summary = self.wikipedia.summary(titles[0], sentences=3)
 
-                """Add regex  to remove == string == in summary:"""
+                # Add regex  to remove == string == in summary:
                 summary = re.sub(r"={2}\s.+={2}", r"", summary)
 
                 url = infos.url
@@ -151,6 +151,9 @@ class WikiMedia:
                 summary = ""
                 url = ""
                 self.wiki_data = {"status": False}
+
+        # Use one except block in case of disambiguations errors. Allow to search for the next
+        # title if the first one lead to a disambiguation error.
 
         except mediawiki.exceptions.DisambiguationError:
             if len(titles) > 1:
