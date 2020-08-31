@@ -15,7 +15,7 @@ rel="stylesheet">
     <header>
         <div class="container">
             <div class="row">
-                <div class="col-lg-2 col-md-2 col-sm-12 col_xs_12"><img src="{{url_for('static', filename='img/agecanonix.png')}}" /></div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col_xs_12"><img src="{{url_for('static', filename='img/agecanonix.png')}}" alt="Image de Grandpy Bot" /></div>
                 <div id="grandpy_title" class="col-lg-10 col-md-10 col-sm-12 col_xs_12">
                     <div><h1> Grandpy Bot </h1></div>
                     <div>
@@ -32,8 +32,8 @@ rel="stylesheet">
                     <div class="col-lg-7 col-md-9 col-sm-9 col_xs_9">
                         <form id='formi'>
                             <p style="text-align: center">
-                                <label label for="question" style="font-size: 1.3em;">Pose ta question à ton papyBot:</label>
-                                <input size="20" type="test" id="question" class="forms" name="Question" placeholder="Pose ta question ici">
+                                <label for="question" style="font-size: 1.3em;">Pose ta question à ton papyBot:</label>
+                                <input size="20" type="text" id="question" class="forms" name="Question" placeholder="Pose ta question ici">
                                 <input type="submit" value="Envoyer">
                                 <!-- <div id="spin" class="spinner-border"></div> -->
                             </p>
@@ -53,11 +53,11 @@ rel="stylesheet">
                     <script>
                         mapboxgl.accessToken = "{{MAPBOX_KEY}}";
                     </script>
-            </div>
-        </section>
+            </section>
+        </div>
             <footer class="container-fluid">
             <p id="code"> Olivier. Le code est situé ici: <a href="https://github.com/oliviernes/oc_P7"> Github</a></p>
         </footer>
-        <script type="text/javascript" src="{{url_for('static', filename='js/ajax.js')}}"></script>
+        <script src="{{url_for('static', filename='js/ajax.js')}}"></script>
     </body>
 </html>
