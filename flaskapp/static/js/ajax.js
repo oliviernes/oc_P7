@@ -1,8 +1,6 @@
 const form = document.getElementById('formi');
 const spinner = document.getElementById('spin')
 let mapNumber = 0;
-let lastquestion = ""
-let div = document.createElement('div');
 
 form.addEventListener('submit', function(event){
     event.preventDefault();
@@ -21,6 +19,12 @@ form.addEventListener('submit', function(event){
         let mapbotElt = document.createElement('div');
         let wikibotElt = document.createElement('div');
 
+        let dialog = document.getElementById("dialogBot");
+        let firstChild = dialog.firstChild;
+        let chatDiv = document.createElement("div");
+        dialog.insertBefore(chatDiv, firstChild);
+        let chatInsert = dialog.firstChild;
+    
         if (response['address']) {
             
             let mapa = "map" + mapNumber.toString();
@@ -38,11 +42,11 @@ form.addEventListener('submit', function(event){
                 wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><p>${response['messages'][1]}</p></div>` 
             }
 
-            document.getElementById('chatbot').appendChild(questionElt)
-            document.getElementById('chatbot').appendChild(answerElt)
-            document.getElementById('chatbot').appendChild(mapbotElt)
-            document.getElementById('chatbot').appendChild(wikibotElt)
-            
+            chatDiv.appendChild(questionElt)
+            chatDiv.appendChild(answerElt)
+            chatDiv.appendChild(mapbotElt)
+            chatDiv.appendChild(wikibotElt)
+
             let lati = response['locate'].lat;
             let long = response['locate'].lng;    
 
@@ -66,12 +70,48 @@ form.addEventListener('submit', function(event){
             mapbotElt.innerHTML = `<div class="offset-lg-2 col-lg-10" ></div>`;
             wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"></div>`;
 
-            document.getElementById('chatbot').appendChild(questionElt)
-            document.getElementById('chatbot').appendChild(answerElt)
-            document.getElementById('chatbot').appendChild(mapbotElt)
-            document.getElementById('chatbot').appendChild(wikibotElt)
+            chatDiv.appendChild(questionElt)
+            chatDiv.appendChild(answerElt)
+            chatDiv.appendChild(mapbotElt)
+            chatDiv.appendChild(wikibotElt)
 
         }
+
+        // document.getElementById('chatbot').appendChild(questionElt)
+        // document.getElementById('chatbot').appendChild(answerElt)
+        // document.getElementById('chatbot').appendChild(mapbotElt)
+        // document.getElementById('chatbot').appendChild(wikibotElt)
+
+        // let lati = response['locate'].lat;
+        // let long = response['locate'].lng;    
+
+        // function initMap(long, lati, mapa) {
+        //     var map = new mapboxgl.Map({
+        //         container: '${mapa}',
+        //         center: [ long, lati ],
+        //         style: 'mapbox://styles/mapbox/streets-v11',
+        //         zoom: 15,
+        //     });
+    
+        // initMap(long, lati, mapa)
+
+            // new google.maps.Map(document.getElementById(div), {
+            //     center: {lat: receiveLat, lng: receiveLng},
+            //     zoom: 15
+            //     });
+        // }
+        
+        // console.log(mapa);
+
+        // var map = new mapboxgl.Map({
+        //     container: mapa,
+        //     center: [ long, lati ],
+        //     style: 'mapbox://styles/mapbox/streets-v11',
+        //     zoom: 15,
+        // });
+        // var marker = new mapboxgl.Marker()
+        // .setLngLat([ long, lati ])
+        // .addTo(map);
 
     })
     .then(display)
