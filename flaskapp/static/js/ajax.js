@@ -23,13 +23,10 @@ form.addEventListener('submit', function(event){
         let firstChild = dialog.firstChild;
         let chatDiv = document.createElement("div");
         dialog.insertBefore(chatDiv, firstChild);
-        let chatInsert = dialog.firstChild;
     
         if (response['address']) {
             
             let mapa = "map" + mapNumber.toString();
-
-            console.log(mapa);
 
             answerElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h2>${response['messages'][0]} ${response['address']}</h2></div>`
 
@@ -49,8 +46,6 @@ form.addEventListener('submit', function(event){
 
             let lati = response['locate'].lat;
             let long = response['locate'].lng;    
-
-            console.log(mapa);
 
             var map = new mapboxgl.Map({
                 container: mapa,
@@ -74,45 +69,7 @@ form.addEventListener('submit', function(event){
             chatDiv.appendChild(answerElt)
             chatDiv.appendChild(mapbotElt)
             chatDiv.appendChild(wikibotElt)
-
         }
-
-        // document.getElementById('chatbot').appendChild(questionElt)
-        // document.getElementById('chatbot').appendChild(answerElt)
-        // document.getElementById('chatbot').appendChild(mapbotElt)
-        // document.getElementById('chatbot').appendChild(wikibotElt)
-
-        // let lati = response['locate'].lat;
-        // let long = response['locate'].lng;    
-
-        // function initMap(long, lati, mapa) {
-        //     var map = new mapboxgl.Map({
-        //         container: '${mapa}',
-        //         center: [ long, lati ],
-        //         style: 'mapbox://styles/mapbox/streets-v11',
-        //         zoom: 15,
-        //     });
-    
-        // initMap(long, lati, mapa)
-
-            // new google.maps.Map(document.getElementById(div), {
-            //     center: {lat: receiveLat, lng: receiveLng},
-            //     zoom: 15
-            //     });
-        // }
-        
-        // console.log(mapa);
-
-        // var map = new mapboxgl.Map({
-        //     container: mapa,
-        //     center: [ long, lati ],
-        //     style: 'mapbox://styles/mapbox/streets-v11',
-        //     zoom: 15,
-        // });
-        // var marker = new mapboxgl.Marker()
-        // .setLngLat([ long, lati ])
-        // .addTo(map);
-
     })
     .then(display)
 });
