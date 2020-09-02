@@ -1,6 +1,6 @@
 const form = document.getElementById('formi');
 const spinner = document.getElementById('spin')
-let count = 0;
+let mapNumber = 0;
 let lastquestion = ""
 let div = document.createElement('div');
 
@@ -13,63 +13,66 @@ form.addEventListener('submit', function(event){
     })
     .then(response => response.json())
     .then(response => {
-        let questionlastElt = document.createElement('div');
         
-        if ( count == 1 ) {
-            let previous1 = `<div class="col-lg-8 box"><p id="recherches"> Recherche précédente: </p></div>`
-            let div1 = document.querySelector('#question-bar');
-            div.innerHTML = previous1;
-            div1.parentNode.insertBefore(div.firstChild, div1.nextSibling);
-        }
-        else if ( count == 2 ) {
-            let previous2 = document.createTextNode("Recherches précédentes:");
-            let recherche = document.getElementById("recherches");
-            recherche.replaceChild(previous2, recherche.firstChild);
-        }
+        let questionElt = document.createElement('div');
+        questionElt.innerHTML = `<div class="col-lg-8 box"><h2>${ response['question'] }</h2></div>` 
 
-        if ( count > 0 ) {
-            questionlastElt.innerHTML = `<div class="col-lg-8 box"><p>${ lastquestion }</p></div>` 
-            document.getElementById('question-last-bot').appendChild(questionlastElt)
-        }
-
-        let questionElt = document.getElementById('questionbot');
-        questionElt.innerHTML = `<div class="col-lg-8"><h2>${ response['question'] }</h2></div>`
-        
-        lastquestion = response['question']
-
-        count += 1;
-        const mapbotElt = document.getElementById('mapbot');
-        const papybotElt = document.getElementById('papybot');
-        const wikibotElt = document.getElementById('wikibot');
+        let answerElt = document.createElement('div');
+        let mapbotElt = document.createElement('div');
+        let wikibotElt = document.createElement('div');
 
         if (response['address']) {
             
-            mapbotElt.innerHTML = `<div id='map' class="offset-lg-2 col-lg-10 col-md-8 offset-sm-2 col-sm-6 offset-xs-1 col_xs_10" style='width: 600px; height: 400px;'></div>`;
-            let lati = response['locate'].lat;
-            let long = response['locate'].lng;    
-            var map = new mapboxgl.Map({
-                container: 'map',
-                center: [ long, lati ],
-                style: 'mapbox://styles/mapbox/streets-v11',
-                zoom: 15,
-            });
-            var marker = new mapboxgl.Marker()
-                .setLngLat([ long, lati ])
-                .addTo(map);
+            let mapa = "map" + mapNumber.toString();
+
+            console.log(mapa);
+
+            answerElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h2>${response['messages'][0]} ${response['address']}</h2></div>`
+
+            mapbotElt.innerHTML = `<div id="${mapa}" class="offset-lg-2 col-lg-10 col-md-8 offset-sm-2 col-sm-6 offset-xs-1 col_xs_10" style='width: 600px; height: 400px;'></div>`;
             
-            papybotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h2>${response['messages'][0]} ${response['address']}</h2></div>`
             if (response['summary']) {
                 wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10 offset-md-2 col-md-6 offset-sm-2 col-sm-6 col-xs-6"><p>${response['messages'][1]} ${response['summary']} [<a href="${response['url']}">En savoir plus sur Wikipedia</a>]</p></div>`
             }
             else {
                 wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><p>${response['messages'][1]}</p></div>` 
             }
+
+            document.getElementById('chatbot').appendChild(questionElt)
+            document.getElementById('chatbot').appendChild(answerElt)
+            document.getElementById('chatbot').appendChild(mapbotElt)
+            document.getElementById('chatbot').appendChild(wikibotElt)
+            
+            let lati = response['locate'].lat;
+            let long = response['locate'].lng;    
+
+            console.log(mapa);
+
+            var map = new mapboxgl.Map({
+                container: mapa,
+                center: [ long, lati ],
+                style: 'mapbox://styles/mapbox/streets-v11',
+                zoom: 15,
+            });    
+
+            var marker = new mapboxgl.Marker()
+            .setLngLat([ long, lati ])
+            .addTo(map);
+
+            mapNumber++
         }
         else {
+            answerElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h2>${response['messages']}</h2></div>`;
             mapbotElt.innerHTML = `<div class="offset-lg-2 col-lg-10" ></div>`;
-            papybotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h2>${response['messages']}</h2></div>`;
             wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"></div>`;
+
+            document.getElementById('chatbot').appendChild(questionElt)
+            document.getElementById('chatbot').appendChild(answerElt)
+            document.getElementById('chatbot').appendChild(mapbotElt)
+            document.getElementById('chatbot').appendChild(wikibotElt)
+
         }
+
     })
     .then(display)
 });

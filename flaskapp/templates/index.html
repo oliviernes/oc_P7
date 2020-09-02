@@ -1,10 +1,9 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-rel="stylesheet">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}" />
         <script src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js'></script>
         <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
@@ -27,7 +26,7 @@ rel="stylesheet">
     </header>
         <div id="cont" class="container">
             <br>
-            <section id ="dialogBot" class="border rounded shadow bg-white">
+            <section class="border rounded shadow bg-white">
                 <div id="question-bar" class="row">
                     <div class="col-lg-7 col-md-9 col-sm-9 col_xs_9">
                         <form id='formi'>
@@ -43,16 +42,20 @@ rel="stylesheet">
                         <div id="spin" class="spinner-border"></div>
                     </div>
                 </div>
+            </section>
+            <br>
+            <section id ="dialogBot" class="border rounded shadow bg-white">
                 <!-- Begin Javascript insert -->
-                <div id="question-last-bot" ></div>
-                <div id="questionbot"></div>
-                <div id="papybot"></div>
-                <div id="mapbot"></div>
-                <div id="wikibot"></div>
+                <div id="chatbot" >
+                    <!-- <div id="questionbot"></div>
+                    <div id="papybot"></div>
+                    <div id="mapbot"></div>
+                    <div id="wikibot"></div> -->
+                </div>
                 <!-- End Javascript insert -->
-                    <script>
-                        mapboxgl.accessToken = "{{MAPBOX_KEY}}";
-                    </script>
+                <script>
+                    mapboxgl.accessToken = "{{MAPBOX_KEY}}";
+                </script>
             </section>
         </div>
             <footer class="container-fluid">
