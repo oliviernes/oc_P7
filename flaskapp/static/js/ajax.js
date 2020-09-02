@@ -30,7 +30,13 @@ form.addEventListener('submit', function(event){
 
             answerElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h2>${response['messages'][0]} ${response['address']}</h2></div>`
 
-            mapbotElt.innerHTML = `<div id="${mapa}" class="offset-lg-2 col-lg-10 col-md-8 offset-sm-2 col-sm-6 offset-xs-1 col_xs_10" style='width: 600px; height: 400px;'></div>`;
+            if (window.screen.width > 700) {
+                mapbotElt.innerHTML = `<div id="${mapa}" class="offset-lg-2 col-lg-10 col-md-8 offset-sm-2 col-sm-6 offset-xs-1 col_xs_10" style='width: 700px; height: 400px;'></div>`;
+            }
+            else {
+                mapbotElt.innerHTML = `<div id="${mapa}" class="offset-lg-2 col-lg-10 col-md-8 offset-sm-2 col-sm-6 offset-xs-1 col_xs_10" style='width: 250px; height: 400px;'></div>`;
+            }
+
             
             if (response['summary']) {
                 wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10 offset-md-2 col-md-6 offset-sm-2 col-sm-6 col-xs-6"><p>${response['messages'][1]} ${response['summary']} [<a href="${response['url']}">En savoir plus sur Wikipedia</a>]</p></div>`
