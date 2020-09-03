@@ -1,8 +1,9 @@
 from random import choice as rand
 import json
 import pytest
+import requests
 from flaskapp.backend.parser import Parser
-from flaskapp.backend.API import Google, WikiMedia
+from flaskapp.backend.API import Google, WikiMedia, GetJson
 from flaskapp.backend.messages import Message
 
 
@@ -176,8 +177,48 @@ class TestAPI:
             "url": "",
         }
 
+    def test_get_json(self, mocker):
 
-class Test_messages:
+        payload = {
+            "key": "any_key",
+            "address": "openclassrooms",
+        }
+
+        GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json"
+
+        class Requests:
+            """Class to mock Requests.get response"""
+
+            def json(self):
+                return {
+                        "results": [
+                                    {
+                                    "address_components": [
+                                        {
+                                        "long_name": "10",
+                                    "short_name": "10",
+                                    "types": [
+                                        "street_number"
+                                    ]
+                                    },
+                                    ],
+                                  }
+                                ],
+                        "status": "OK" 
+                        }
+
+            def raise_for_status(self):
+                return "nothing"
+
+        response = Requests()
+        
+        get = GetJson(GEOCODE_URL, payload)
+
+        mocker.patch("flaskapp.backend.API.requests.get", return_value=response) 
+
+        assert get.get_json() == response.json()
+
+class TestMessages:
     def test_positive_adresse(self, mocker):
 
         message = Message()
