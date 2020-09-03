@@ -18,5 +18,5 @@ logging_config = dict(
             "encoding": "utf8",
         }
     },
-    root={"handlers": ["h"], "level": logging.DEBUG, },
+    root={"handlers": ["h"], "level": logging.DEBUG,},
 )

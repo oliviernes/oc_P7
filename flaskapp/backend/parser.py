@@ -18,7 +18,6 @@ class Parser:
         phrase_lower = phrase_no_accents.lower()
         phrase_alphanum = re.sub("[^A-Za-z0-9-]+", " ", phrase_lower)
         phrase_sliced = phrase_alphanum.split()
-        words = [
-            word for word in phrase_sliced if word not in self.erase_words]
+        words = [word for word in phrase_sliced if word not in self.erase_words]
         search_words = " ".join(words)
         return search_words

@@ -6,6 +6,7 @@ from flaskapp.backend.API import Google, WikiMedia
 from flaskapp.backend.messages import Message
 from config import MAPBOX_API
 
+
 @app.route("/ajax/", methods=["GET", "POST"])
 def ajax():
     """Process data from the Ajax call"""
@@ -42,10 +43,10 @@ def ajax():
                     "question": question,
                 }
             )
-        messages.append(message.negative_addresse())
-        return jsonify({"messages": messages, "question": question, })
+        messages.append(message.negative_address())
+        return jsonify({"messages": messages, "question": question,})
     messages.append("Mais pose donc une question!!")
-    return jsonify({"messages": messages, "question": "", })
+    return jsonify({"messages": messages, "question": "",})
 
 
 @app.route("/")

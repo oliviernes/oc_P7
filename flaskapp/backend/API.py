@@ -3,10 +3,12 @@
 import re
 import logging
 from pprint import pformat as pf
+
 import requests
 from mediawiki import MediaWiki
 import mediawiki
 import simplejson
+
 from flaskapp.backend.parser import Parser
 from config import GEOCODE_URL, GOOGLE_API
 
@@ -96,31 +98,27 @@ class Google:
         except IndexError as error:
             self.loc_data = {
                 "status": False,
-                "error": {"IndexError": str(error), "response": response, },
+                "error": {"IndexError": str(error), "response": response,},
             }
             logging.exception(f"loc_data=\n{pf(self.loc_data)}")
 
         except KeyError as error:
             self.loc_data = {
                 "status": False,
-                "error": {"KeyError": str(error), "response": response, },
+                "error": {"KeyError": str(error), "response": response,},
             }
             logging.exception(f"loc_data=\n{pf(self.loc_data)}")
 
         except TypeError as error:
             self.loc_data = {
                 "status": False,
-                "error": {"TypeError": str(error), "response": response, },
+                "error": {"TypeError": str(error), "response": response,},
             }
             logging.exception(f"loc_data=\n{pf(self.loc_data)}")
 
         else:
             if response["status"] == "OK":
-                return {
-                    "locate": locate,
-                    "district": district,
-                    "address": address
-                }
+                return {"locate": locate, "district": district, "address": address}
             self.loc_data = {
                 "status": False,
             }
