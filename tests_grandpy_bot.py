@@ -1,3 +1,4 @@
+from random import choice as rand
 import json
 import pytest
 from flaskapp.backend.parser import Parser
