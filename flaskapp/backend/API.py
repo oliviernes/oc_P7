@@ -12,6 +12,7 @@ import simplejson
 from flaskapp.backend.parser import Parser
 from config import GEOCODE_URL, GOOGLE_API
 
+import pdb
 
 logger = logging.getLogger()
 
@@ -118,10 +119,12 @@ class Google:
 
         else:
             if response["status"] == "OK":
-                return {"locate": locate, "district": district, "address": address}
-            self.loc_data = {
-                "status": False,
-            }
+                return {"locate": locate, "district": district, "address": address, "status": True}
+            else:
+                self.loc_data = {
+                    "status": False,
+                }
+                return {"status": False}
 
 
 class WikiMedia:

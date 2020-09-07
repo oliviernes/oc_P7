@@ -17,7 +17,7 @@ def ajax():
         question = request.form["Question"]
         locate = google.geoloc(question)
 
-        if google.loc_data["status"]:
+        if locate["status"]:
             infos_wiki = wiki.get_infos(locate["district"])
             messages.append(message.positive_address())
 
