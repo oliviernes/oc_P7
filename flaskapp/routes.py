@@ -7,7 +7,7 @@ from flaskapp.backend.messages import Message
 from config import MAPBOX_API
 
 
-@app.route("/ajax/", methods=["GET", "POST"])
+@app.route("/ajax/", methods=["GET", "POST"], strict_slashes=False)
 def ajax():
     """Process data from the Ajax call"""
     google, wiki, message = Google(), WikiMedia(), Message()
