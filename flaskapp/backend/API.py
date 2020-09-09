@@ -83,10 +83,14 @@ class Google:
 
         response = GetJson(self.geocode_url, payload).get_json()
 
+        # if response["status"]="ZERO_RESULTS":
+        #     raise Exception
+
         try:
             locate = response["results"][0]["geometry"]["location"]
             address = response["results"][0]["formatted_address"]
             address_components = response["results"][0]["address_components"]
+            
             district = "llkdsoisqz54"
 
             for add in address_components:
@@ -120,6 +124,11 @@ class Google:
         else:
             if response["status"] == "OK":
                 return {"locate": locate, "district": district, "address": address, "status": True}
+            elif response["status"] == "ZERO_RESULTS":
+                self.loc_data = {
+                    "status": False,
+                }
+                return {"status": False}
             else:
                 self.loc_data = {
                     "status": False,
@@ -133,7 +142,7 @@ class WikiMedia:
     def __init__(self):
         self.wikipedia = MediaWiki()
         self.wikipedia.language = "fr"
-        self.wiki_data = {"status": True}
+        # self.wiki_data = {"status": True}
 
     def get_infos(self, query):
         """Method allowing to retrieve informations from wikipedia.fr."""
@@ -145,13 +154,14 @@ class WikiMedia:
 
                 # Add regex  to remove == string == in summary:
                 summary = re.sub(r"={2}\s.+={2}", r"", summary)
-
+                status = True
                 url = infos.url
 
             else:
                 summary = ""
                 url = ""
-                self.wiki_data = {"status": False}
+                status = False
+                # self.wiki_data = {"status": False}
 
         # Use one except block in case of disambiguations errors. Allow to search for the next
         # title if the first one lead to a disambiguation error.
@@ -163,16 +173,19 @@ class WikiMedia:
                     summary = self.wikipedia.summary(titles[1], sentences=3)
                     summary = re.sub(r"={2}\s.+={2}", r"", summary)
                     url = infos.url
+                    status = True
 
                 except mediawiki.exceptions.DisambiguationError:
                     summary = ""
                     url = ""
-                    self.wiki_data = {"status": False}
+                    status = False
+                    # self.wiki_data = {"status": False}
                     logging.exception("Exception occurred")
             else:
                 summary = ""
                 url = ""
-                self.wiki_data = {"status": False}
+                status = False
+                # self.wiki_data = {"status": False}
                 logging.exception("Exception occurred")
 
-        return {"summary": summary, "url": url}
+        return {"summary": summary, "url": url, "status": status}
