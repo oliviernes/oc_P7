@@ -58,4 +58,4 @@ def ajax():
 @app.route("/index/")
 def index():
     """To return """
-    return render_template("index.html", MAPBOX_KEY=MAPBOX_API, GOOGLE_KEY=GOOGLE_API)
+    return render_template("index.html", MAPBOX_KEY=MAPBOX_API)
