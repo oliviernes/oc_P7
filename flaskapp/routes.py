@@ -4,7 +4,7 @@ from flask import render_template, request, jsonify
 from flaskapp import app
 from flaskapp.backend.API import Google, WikiMedia
 from flaskapp.backend.messages import Message
-from config import MAPBOX_API, GOOGLE_API
+from config import MAPBOX_API
 
 import pdb
 

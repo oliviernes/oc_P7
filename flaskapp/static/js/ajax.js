@@ -2,15 +2,14 @@ const form = document.getElementById('formi');
 const spinner = document.getElementById('spin')
 let mapNumber = 0;
 
-let map;
+// let map;
 
-function initMap(mapa, lati, long) {
-map = new google.maps.Map(document.getElementById(mapa), {
-    center: { lat: lati, lng: long },
-    zoom: 15
-});
-}
-
+// function initMap(mapa, lati, long) {
+// map = new google.maps.Map(document.getElementById(mapa), {
+//     center: { lat: lati, lng: long },
+//     zoom: 15
+// });
+// }
 
 form.addEventListener('submit', function(event){
     event.preventDefault();
@@ -63,27 +62,18 @@ form.addEventListener('submit', function(event){
             let lati = response['locate'].lat;
             let long = response['locate'].lng;    
 
-            // var map = new mapboxgl.Map({
-            //     container: mapa,
-            //     center: [ long, lati ],
-            //     style: 'mapbox://styles/mapbox/streets-v11',
-            //     zoom: 15,
-            // });    
+            var map = new mapboxgl.Map({
+                container: mapa,
+                center: [ long, lati ],
+                style: 'mapbox://styles/mapbox/streets-v11',
+                zoom: 15,
+            });    
 
-            // var marker = new mapboxgl.Marker()
-            // .setLngLat([ long, lati ])
-            // .addTo(map);
+            var marker = new mapboxgl.Marker()
+            .setLngLat([ long, lati ])
+            .addTo(map);
 
-            // let map;
-
-            // function initMap(mapa) {
-            // map = new google.maps.Map(document.getElementById(mapa), {
-            //     center: { lat: -34.397, lng: 150.644 },
-            //     zoom: 8
-            // });
-            // }
-
-            initMap(mapa, lati, long);
+            // initMap(mapa, lati, long);
 
             mapNumber++
         }
