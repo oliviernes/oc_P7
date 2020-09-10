@@ -1,12 +1,16 @@
-from flaskapp import app
+"""Import pytest to test backend and routes.py"""
+
 import json
 import pytest
+from flaskapp import app
 from flaskapp.backend.parser import Parser
 from flaskapp.backend.API import Google, WikiMedia, GetJson
 from flaskapp.backend.messages import Message
 
 
 class TestParser:
+    """Class testing the parser"""
+
     def test_parser_adresse(self):
         adresse = (
             "Bonjour Grandpy, dis moi ce que tu sais à propos du 7 Cité"
@@ -23,13 +27,14 @@ class TestParser:
         assert phrase_parsed.parse(adresse) == ""
 
     def test_parser_STOP_WORDS_only(self):
-        adresse = "a abord absolument afin ah ai aie ailleurs ainsi ait allaient"
+        adresse = "a abord absolument afin ah ai aie ailleurs ainsi ait"
         phrase_parsed = Parser()
 
         assert phrase_parsed.parse(adresse) == ""
 
     def test_parser_apostrophe(self):
-        adresse = "Bonjour Grandpy, dis moi ce que tu sais à propos" " d'Openclassrooms"
+        adresse = "Bonjour Grandpy, dis moi ce que tu sais à propos" \
+         " d'Openclassrooms"
         phrase_parsed = Parser()
 
         assert phrase_parsed.parse(adresse) == "openclassrooms"
@@ -42,8 +47,13 @@ class TestAPI:
         results = {
             "results": [
                 {
-                    "geometry": {"location": {"lat": 48.8747265, "lng": 2.3505517}},
-                    "formatted_address": "7 Cité Paradis, 75010 Paris," " France",
+                    "geometry": {"location": {
+                                            "lat": 48.8747265,
+                                            "lng": 2.3505517
+                                            }
+                                 },
+                    "formatted_address": "7 Cité Paradis, 75010 Paris,"
+                    " France",
                     "address_components": [
                         {
                             "long_name": "7",
@@ -63,12 +73,14 @@ class TestAPI:
                         {
                             "long_name": "Arrondissement de Paris",
                             "short_name": "Arrondissement de Paris",
-                            "types": ["administrative_area_level_2", "political"],
+                            "types": ["administrative_area_level_2",
+                                      "political"],
                         },
                         {
                             "long_name": "Île-de-France",
                             "short_name": "IDF",
-                            "types": ["administrative_area_level_1", "political"],
+                            "types": ["administrative_area_level_1",
+                                      "political"],
                         },
                         {
                             "long_name": "France",
@@ -86,7 +98,10 @@ class TestAPI:
             "status": "OK",
         }
 
-        mocker.patch("flaskapp.backend.API.GetJson.get_json", return_value=results)
+        mocker.patch(
+                    "flaskapp.backend.API.GetJson.get_json",
+                    return_value=results
+                    )
 
         goggle = Google()
 
@@ -100,7 +115,10 @@ class TestAPI:
     def test_geoloc_zero_results(self, mocker):
         results = {"results": [], "status": "ZERO_RESULTS"}
 
-        mocker.patch("flaskapp.backend.API.GetJson.get_json", return_value=results)
+        mocker.patch(
+                    "flaskapp.backend.API.GetJson.get_json",
+                    return_value=results
+                    )
 
         goggle = Google()
 
@@ -138,10 +156,22 @@ class TestAPI:
             def __init__(self):
                 self.url = url
 
-        mocker.patch("flaskapp.backend.API.MediaWiki.search", return_value=titles)
-        mocker.patch("flaskapp.backend.API.MediaWiki.page", return_value=Page())
-        mocker.patch("flaskapp.backend.API.MediaWiki.summary", return_value=summary)
-        mocker.patch("flaskapp.backend.API.MediaWiki.page.url", return_value=url)
+        mocker.patch(
+                    "flaskapp.backend.API.MediaWiki.search",
+                    return_value=titles
+                    )
+        mocker.patch(
+                    "flaskapp.backend.API.MediaWiki.page",
+                    return_value=Page()
+                    )
+        mocker.patch(
+                    "flaskapp.backend.API.MediaWiki.summary",
+                    return_value=summary
+                    )
+        mocker.patch(
+                    "flaskapp.backend.API.MediaWiki.page.url",
+                    return_value=url
+                    )
 
         assert wiki.get_infos("Cité Paradis") == {
             "summary": "La cité Paradis est une voie publique située"
@@ -159,7 +189,10 @@ class TestAPI:
 
         titles = []
 
-        mocker.patch("flaskapp.backend.API.MediaWiki.search", return_value=titles)
+        mocker.patch(
+                    "flaskapp.backend.API.MediaWiki.search",
+                    return_value=titles
+                    )
 
         assert wiki.get_infos("whatever") == {
             "summary": "",
@@ -202,12 +235,17 @@ class TestAPI:
 
         get = GetJson(GEOCODE_URL, payload)
 
-        mocker.patch("flaskapp.backend.API.requests.get", return_value=response)
+        mocker.patch(
+                    "flaskapp.backend.API.requests.get",
+                    return_value=response
+                    )
 
         assert get.get_json() == response.json()
 
 
 class TestMessages:
+    """Test Grandypy messages answer"""
+
     def test_positive_adresse(self, mocker):
 
         message = Message()
@@ -230,7 +268,8 @@ class TestMessages:
 
         mocker.patch(
             "flaskapp.backend.messages.rand",
-            return_value="Je ne comprend pas ta question. " "Parle moi mieux que ça!",
+            return_value="Je ne comprend pas ta question. "
+            "Parle moi mieux que ça!",
         )
 
         assert (
@@ -238,6 +277,8 @@ class TestMessages:
             "question. Parle moi mieux que ça!"
         )
 
+
+# Tests testing routes.py:
 
 @pytest.fixture
 def client():
@@ -247,11 +288,15 @@ def client():
 
 def test_ajax_no_response_from_Google_API(client, mocker):
 
-    mocker.patch("flaskapp.backend.API.Google.geoloc", return_value={"status": False})
+    mocker.patch(
+                "flaskapp.backend.API.Google.geoloc",
+                return_value={"status": False}
+                )
 
     mocker.patch(
         "flaskapp.backend.messages.rand",
-        return_value="Je ne comprend pas ta question. " "Parle moi mieux que ça!",
+        return_value="Je ne comprend pas ta question. "
+        "Parle moi mieux que ça!",
     )
 
     response = client.post(
@@ -262,7 +307,8 @@ def test_ajax_no_response_from_Google_API(client, mocker):
 
     assert response.status_code == 200
     assert data == {
-        "messages": ["Je ne comprend pas ta question. Parle moi mieux que ça!"],
+        "messages": ["Je ne comprend pas ta question. "
+                     "Parle moi mieux que ça!"],
         "question": "azertgdsds",
     }
 
@@ -271,7 +317,8 @@ def test_ajax_no_question(client, mocker):
 
     mocker.patch(
         "flaskapp.backend.messages.rand",
-        return_value="Je ne comprend pas ta question. " "Parle moi mieux que ça!",
+        return_value="Je ne comprend pas ta question. "
+        "Parle moi mieux que ça!",
     )
 
     response = client.post("/ajax/?Question=", data={"Question": ""})
