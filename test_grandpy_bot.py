@@ -9,7 +9,6 @@ from flaskapp.backend.messages import Message
 
 
 class TestParser:
-
     def test_parser_adresse(self):
         adresse = (
             "Bonjour Grandpy, dis moi ce que tu sais à propos du 7 Cité"
@@ -19,20 +18,17 @@ class TestParser:
 
         assert phrase_parsed.parse(adresse) == "7 cite paradis 75010 paris"
 
-
     def test_parser_empty_string(self):
         adresse = ""
         phrase_parsed = Parser()
 
         assert phrase_parsed.parse(adresse) == ""
 
-
     def test_parser_STOP_WORDS_only(self):
         adresse = "a abord absolument afin ah ai aie ailleurs ainsi ait allaient"
         phrase_parsed = Parser()
 
         assert phrase_parsed.parse(adresse) == ""
-
 
     def test_parser_apostrophe(self):
         adresse = "Bonjour Grandpy, dis moi ce que tu sais à propos" " d'Openclassrooms"
@@ -110,7 +106,7 @@ class TestAPI:
 
         goggle = Google()
 
-        assert goggle.geoloc("zero_results") == { "status": False }
+        assert goggle.geoloc("zero_results") == {"status": False}
 
     def test_get_infos_request(self, mocker):
         wiki = WikiMedia()
@@ -187,32 +183,31 @@ class TestAPI:
 
             def json(self):
                 return {
-                        "results": [
-                                    {
-                                    "address_components": [
-                                        {
-                                        "long_name": "10",
+                    "results": [
+                        {
+                            "address_components": [
+                                {
+                                    "long_name": "10",
                                     "short_name": "10",
-                                    "types": [
-                                        "street_number"
-                                    ]
-                                    },
-                                    ],
-                                  }
-                                ],
-                        "status": "OK" 
+                                    "types": ["street_number"],
+                                },
+                            ],
                         }
+                    ],
+                    "status": "OK",
+                }
 
             def raise_for_status(self):
                 return "nothing"
 
         response = Requests()
-        
+
         get = GetJson(GEOCODE_URL, payload)
 
-        mocker.patch("flaskapp.backend.API.requests.get", return_value=response) 
+        mocker.patch("flaskapp.backend.API.requests.get", return_value=response)
 
         assert get.get_json() == response.json()
+
 
 class TestMessages:
     def test_positive_adresse(self, mocker):
@@ -251,117 +246,138 @@ def client():
     client = app.test_client()
     return client
 
+
 def test_ajax_no_response_from_Google_API(client, mocker):
 
-
-    mocker.patch(
-        "flaskapp.backend.API.Google.geoloc", return_value={"status": False}
-    )
-
+    mocker.patch("flaskapp.backend.API.Google.geoloc", return_value={"status": False})
 
     mocker.patch(
         "flaskapp.backend.messages.rand",
         return_value="Je ne comprend pas ta question. " "Parle moi mieux que ça!",
     )
 
-    response = client.post("/ajax/?Question=azertgdsds", data = { 'Question': 'azertgdsds'} )
+    response = client.post(
+        "/ajax/?Question=azertgdsds", data={"Question": "azertgdsds"}
+    )
 
     data = json.loads(response.data)
-    
-    assert (response.status_code == 200)
-    assert data == {"messages": ["Je ne comprend pas ta question. Parle moi mieux que ça!"], "question": "azertgdsds",}
+
+    assert response.status_code == 200
+    assert data == {
+        "messages": ["Je ne comprend pas ta question. Parle moi mieux que ça!"],
+        "question": "azertgdsds",
+    }
+
 
 def test_ajax_no_question(client, mocker):
 
-
     mocker.patch(
         "flaskapp.backend.messages.rand",
         return_value="Je ne comprend pas ta question. " "Parle moi mieux que ça!",
     )
 
-    response = client.post("/ajax/?Question=", data = { 'Question': ''} )
+    response = client.post("/ajax/?Question=", data={"Question": ""})
 
     data = json.loads(response.data)
-    
-    assert (response.status_code == 200)
-    assert data == {"messages": ["Mais pose donc une question!!"], "question": "",}
+
+    assert response.status_code == 200
+    assert data == {
+        "messages": ["Mais pose donc une question!!"],
+        "question": "",
+    }
 
 
 def test_ajax_response_from_Google_API_but_not_Wikipedia(client, mocker):
 
-
     mocker.patch(
-        "flaskapp.backend.API.Google.geoloc", return_value={"locate": {
-                                'lat': 48.8975156, 'lng': 2.3833993},
-                                "district": 'Quai de la Charente',
-                                "address": '10 Quai de la Charente, 75019 Paris, France',
-                                "status": True,
-                                }
+        "flaskapp.backend.API.Google.geoloc",
+        return_value={
+            "locate": {"lat": 48.8975156, "lng": 2.3833993},
+            "district": "Quai de la Charente",
+            "address": "10 Quai de la Charente, 75019 Paris, France",
+            "status": True,
+        },
     )
 
     mocker.patch(
-        "flaskapp.backend.API.WikiMedia.get_infos", return_value={"summary": "", "url": "", "status": False}
+        "flaskapp.backend.API.WikiMedia.get_infos",
+        return_value={"summary": "", "url": "", "status": False},
     )
 
     mocker.patch(
-        "flaskapp.backend.messages.Message.positive_address", return_value = "Bien sûr mon poussin ! La voici: ",
+        "flaskapp.backend.messages.Message.positive_address",
+        return_value="Bien sûr mon poussin ! La voici: ",
     )
 
     mocker.patch(
-        "flaskapp.backend.messages.Message.negative_wiki", return_value = "Ça ne me dit rien du tout!!",
+        "flaskapp.backend.messages.Message.negative_wiki",
+        return_value="Ça ne me dit rien du tout!!",
     )
 
-    response = client.post("/ajax/?Question=openclassrooms", data = { 'Question': 'openclassrooms'} )
+    response = client.post(
+        "/ajax/?Question=openclassrooms", data={"Question": "openclassrooms"}
+    )
 
     data = json.loads(response.data)
-    
-    assert (response.status_code == 200)
-    assert data ==  {
-                    "locate": {'lat': 48.8975156, 'lng': 2.3833993},
-                    "address": '10 Quai de la Charente, 75019 Paris, France',
-                    "messages": ["Bien sûr mon poussin ! La voici: ", "Ça ne me dit rien du tout!!"],
-                    "question": "openclassrooms",
-                }
+
+    assert response.status_code == 200
+    assert data == {
+        "locate": {"lat": 48.8975156, "lng": 2.3833993},
+        "address": "10 Quai de la Charente, 75019 Paris, France",
+        "messages": [
+            "Bien sûr mon poussin ! La voici: ",
+            "Ça ne me dit rien du tout!!",
+        ],
+        "question": "openclassrooms",
+    }
+
 
 def test_ajax_response_from_Google_API_and_Wikipedia(client, mocker):
 
     mocker.patch(
-        "flaskapp.backend.API.Google.geoloc", return_value={"locate": {
-                                'lat': 48.8975156, 'lng': 2.3833993},
-                                "district": 'Quai de la Charente',
-                                "address": '10 Quai de la Charente, 75019 Paris, France',
-                                "status": True,
-                                }
+        "flaskapp.backend.API.Google.geoloc",
+        return_value={
+            "locate": {"lat": 48.8975156, "lng": 2.3833993},
+            "district": "Quai de la Charente",
+            "address": "10 Quai de la Charente, 75019 Paris, France",
+            "status": True,
+        },
     )
 
     mocker.patch(
         "flaskapp.backend.API.WikiMedia.get_infos",
         return_value={
-                    "summary": "Un résumé de wikipedia", 
-                    "url": "https://fr.wikipedia.org/wiki/OpenClassrooms", 
-                    "status": True
-                    }
+            "summary": "Un résumé de wikipedia",
+            "url": "https://fr.wikipedia.org/wiki/OpenClassrooms",
+            "status": True,
+        },
     )
 
     mocker.patch(
-        "flaskapp.backend.messages.Message.positive_address", return_value = "Bien sûr mon poussin ! La voici: ",
+        "flaskapp.backend.messages.Message.positive_address",
+        return_value="Bien sûr mon poussin ! La voici: ",
     )
 
     mocker.patch(
-        "flaskapp.backend.messages.Message.positive_wiki", return_value = "J'y suis allé quand j'étais jeune, il y a 60 ans!:",
+        "flaskapp.backend.messages.Message.positive_wiki",
+        return_value="J'y suis allé quand j'étais jeune, il y a 60 ans!:",
     )
 
-
-    response = client.post("/ajax/?Question=openclassrooms", data = { 'Question': 'openclassrooms'} )
+    response = client.post(
+        "/ajax/?Question=openclassrooms", data={"Question": "openclassrooms"}
+    )
 
     data = json.loads(response.data)
-    
-    assert (response.status_code == 200)
-    assert data ==  {
-                    "locate": {'lat': 48.8975156, 'lng': 2.3833993},
-                    "address": '10 Quai de la Charente, 75019 Paris, France',
-                    "messages": ["Bien sûr mon poussin ! La voici: ", "J'y suis allé quand j'étais jeune, il y a 60 ans!:"],
-                    "question": "openclassrooms",
-                    "summary": "Un résumé de wikipedia", 
-                    "url": "https://fr.wikipedia.org/wiki/OpenClassrooms",
-                }
+
+    assert response.status_code == 200
+    assert data == {
+        "locate": {"lat": 48.8975156, "lng": 2.3833993},
+        "address": "10 Quai de la Charente, 75019 Paris, France",
+        "messages": [
+            "Bien sûr mon poussin ! La voici: ",
+            "J'y suis allé quand j'étais jeune, il y a 60 ans!:",
+        ],
+        "question": "openclassrooms",
+        "summary": "Un résumé de wikipedia",
+        "url": "https://fr.wikipedia.org/wiki/OpenClassrooms",
+    }

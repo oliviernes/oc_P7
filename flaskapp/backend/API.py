@@ -87,7 +87,7 @@ class Google:
             locate = response["results"][0]["geometry"]["location"]
             address = response["results"][0]["formatted_address"]
             address_components = response["results"][0]["address_components"]
-            
+
             district = "llkdsoisqz54"
 
             for add in address_components:
@@ -120,7 +120,12 @@ class Google:
 
         finally:
             if response["status"] == "OK":
-                return {"locate": locate, "district": district, "address": address, "status": True}
+                return {
+                    "locate": locate,
+                    "district": district,
+                    "address": address,
+                    "status": True,
+                }
             self.loc_data = {
                 "status": False,
             }
