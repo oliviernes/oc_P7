@@ -103,24 +103,14 @@ class TestAPI:
             "status": True,
         }
 
-    def test_geoloc_bad_result(self, mocker):
-        results = {"results": [{"bad result": "no valid data",}], "status": "OK"}
+    def test_geoloc_zero_results(self, mocker):
+        results = {"results": [], "status": "ZERO_RESULTS"}
 
         mocker.patch("flaskapp.backend.API.GetJson.get_json", return_value=results)
 
         goggle = Google()
-        goggle.geoloc("bad_answer")
 
-        assert goggle.loc_data == {
-            "status": False,
-            "error": {
-                "KeyError": "'geometry'",
-                "response": {
-                    "results": [{"bad result": "no valid data",}],
-                    "status": "OK",
-                },
-            },
-        }
+        assert goggle.geoloc("zero_results") == { "status": False }
 
     def test_get_infos_request(self, mocker):
         wiki = WikiMedia()
