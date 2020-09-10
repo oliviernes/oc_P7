@@ -6,8 +6,6 @@ from flaskapp.backend.API import Google, WikiMedia
 from flaskapp.backend.messages import Message
 from config import MAPBOX_API
 
-import pdb
-
 
 @app.route("/ajax/", methods=["GET", "POST"])
 def ajax():
@@ -17,15 +15,12 @@ def ajax():
 
     if request.form["Question"]:
         question = request.form["Question"]
-        # try:
         locate = google.geoloc(question)
 
-        # if google.loc_data["status"]:
         if locate["status"]:
             infos_wiki = wiki.get_infos(locate["district"])
             messages.append(message.positive_address())
 
-            # if wiki.wiki_data["status"]:
             if infos_wiki["status"]:
                 messages.append(message.positive_wiki())
                 return jsonify(
@@ -48,7 +43,6 @@ def ajax():
                     "question": question,
                 }
             )
-        # except:
         messages.append(message.negative_address())
         return jsonify({"messages": messages, "question": question,})
     messages.append("Mais pose donc une question!!")

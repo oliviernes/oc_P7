@@ -12,7 +12,6 @@ import simplejson
 from flaskapp.backend.parser import Parser
 from config import GEOCODE_URL, GOOGLE_API
 
-import pdb
 
 logger = logging.getLogger()
 
@@ -138,7 +137,6 @@ class WikiMedia:
     def __init__(self):
         self.wikipedia = MediaWiki()
         self.wikipedia.language = "fr"
-        # self.wiki_data = {"status": True}
 
     def get_infos(self, query):
         """Method allowing to retrieve informations from wikipedia.fr."""
@@ -157,7 +155,6 @@ class WikiMedia:
                 summary = ""
                 url = ""
                 status = False
-                # self.wiki_data = {"status": False}
 
         # Use one except block in case of disambiguations errors. Allow to search for the next
         # title if the first one lead to a disambiguation error.
@@ -175,13 +172,11 @@ class WikiMedia:
                     summary = ""
                     url = ""
                     status = False
-                    # self.wiki_data = {"status": False}
                     logging.exception("Exception occurred")
             else:
                 summary = ""
                 url = ""
                 status = False
-                # self.wiki_data = {"status": False}
                 logging.exception("Exception occurred")
 
         return {"summary": summary, "url": url, "status": status}
