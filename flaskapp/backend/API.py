@@ -83,9 +83,6 @@ class Google:
 
         response = GetJson(self.geocode_url, payload).get_json()
 
-        # if response["status"]="ZERO_RESULTS":
-        #     raise Exception
-
         try:
             locate = response["results"][0]["geometry"]["location"]
             address = response["results"][0]["formatted_address"]
@@ -121,19 +118,13 @@ class Google:
             }
             logging.exception(f"loc_data=\n{pf(self.loc_data)}")
 
-        else:
+        finally:
             if response["status"] == "OK":
                 return {"locate": locate, "district": district, "address": address, "status": True}
-            elif response["status"] == "ZERO_RESULTS":
-                self.loc_data = {
-                    "status": False,
-                }
-                return {"status": False}
-            else:
-                self.loc_data = {
-                    "status": False,
-                }
-                return {"status": False}
+            self.loc_data = {
+                "status": False,
+            }
+            return {"status": False}
 
 
 class WikiMedia:
