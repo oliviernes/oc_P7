@@ -86,7 +86,10 @@ class Google:
             locate = response["results"][0]["geometry"]["location"]
             address = response["results"][0]["formatted_address"]
             address_components = response["results"][0]["address_components"]
-
+            """
+            Give a district object in case of add["types"][0] different from
+            route or locality
+            """
             district = "llkdsoisqz54"
 
             for add in address_components:
@@ -99,21 +102,21 @@ class Google:
         except IndexError as error:
             self.loc_data = {
                 "status": False,
-                "error": {"IndexError": str(error), "response": response,},
+                "error": {"IndexError": str(error), "response": response, },
             }
             logging.exception(f"loc_data=\n{pf(self.loc_data)}")
 
         except KeyError as error:
             self.loc_data = {
                 "status": False,
-                "error": {"KeyError": str(error), "response": response,},
+                "error": {"KeyError": str(error), "response": response, },
             }
             logging.exception(f"loc_data=\n{pf(self.loc_data)}")
 
         except TypeError as error:
             self.loc_data = {
                 "status": False,
-                "error": {"TypeError": str(error), "response": response,},
+                "error": {"TypeError": str(error), "response": response, },
             }
             logging.exception(f"loc_data=\n{pf(self.loc_data)}")
 
@@ -127,7 +130,7 @@ class Google:
                 }
             self.loc_data = {
                 "status": False,
-            }
+                }
             return {"status": False}
 
 
@@ -151,13 +154,15 @@ class WikiMedia:
                 status = True
                 url = infos.url
 
+            # Return empty results if no titles are return from the API
             else:
                 summary = ""
                 url = ""
                 status = False
 
-        # Use one except block in case of disambiguations errors. Allow to search for the next
-        # title if the first one lead to a disambiguation error.
+        # Use one except block in case of disambiguations errors.
+        # Allow to search for the next title if the first one lead
+        # to a disambiguation error.
 
         except mediawiki.exceptions.DisambiguationError:
             if len(titles) > 1:
