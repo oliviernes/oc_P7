@@ -1,8 +1,6 @@
 from flaskapp import app
 import json
 import pytest
-import requests
-from flask import request
 from flaskapp.backend.parser import Parser
 from flaskapp.backend.API import Google, WikiMedia, GetJson
 from flaskapp.backend.messages import Message
