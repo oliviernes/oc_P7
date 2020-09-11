@@ -11,7 +11,7 @@ class Message:
             "positive_address": [
                 "Bien sûr mon poussin ! La voici: ",
                 "Mais oui, je connais très bien, c'est l'adresse:",
-                "Ma mémoire ne me faillit jamais! Voici l'adresse:",
+                "Ma mémoire ne me failli jamais! Voici l'adresse:",
             ],
             "positive_wiki": [
                 "Mais t'ai-je déjà raconté l'histoire de ce quartier"
@@ -21,13 +21,14 @@ class Message:
                 "J'y suis allé quand j'étais jeune, il y a 60 ans!:",
             ],
             "negative_address": [
-                "Je ne comprend pas ta question. Parle moi mieux que ça!",
+                "Je ne comprends pas ta question. Parle moi mieux que ça!",
                 "Ça ne me dit rien du tout!!",
                 "Ta question n'est pas claire. Reformule moi ça!",
             ],
             "negative_wiki": [
                 "Je ne connais que l'adresse...",
-                "Pas d'histoire à te raconter... " "Je connais pas tout non plus!",
+                "Pas d'histoire à te raconter... "
+                "Je ne connais pas tout non plus!",
             ],
         }
 
