@@ -1,6 +1,5 @@
 """Import pytest to test backend and routes.py"""
 
-import json
 import pytest
 from flaskapp import app
 from flaskapp.backend.parser import Parser
@@ -303,7 +302,7 @@ def test_ajax_no_response_from_Google_API(client, mocker):
         "/ajax/?Question=azertgdsds", data={"Question": "azertgdsds"}
     )
 
-    data = json.loads(response.data)
+    data = response.get_json()
 
     assert response.status_code == 200
     assert data == {
@@ -323,7 +322,7 @@ def test_ajax_no_question(client, mocker):
 
     response = client.post("/ajax/?Question=", data={"Question": ""})
 
-    data = json.loads(response.data)
+    data = response.get_json()
 
     assert response.status_code == 200
     assert data == {
@@ -363,7 +362,7 @@ def test_ajax_response_from_Google_API_but_not_Wikipedia(client, mocker):
         "/ajax/?Question=openclassrooms", data={"Question": "openclassrooms"}
     )
 
-    data = json.loads(response.data)
+    data = response.get_json()
 
     assert response.status_code == 200
     assert data == {
@@ -412,7 +411,7 @@ def test_ajax_response_from_Google_API_and_Wikipedia(client, mocker):
         "/ajax/?Question=openclassrooms", data={"Question": "openclassrooms"}
     )
 
-    data = json.loads(response.data)
+    data = response.get_json()
 
     assert response.status_code == 200
     assert data == {
