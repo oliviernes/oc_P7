@@ -5,6 +5,7 @@ from flaskapp import app
 from flaskapp.backend.API import Google, WikiMedia
 from flaskapp.backend.messages import Message
 from config import MAPBOX_API
+# from config import GOOGLE_API
 
 
 @app.route("/ajax/", methods=["GET", "POST"])
@@ -54,3 +55,5 @@ def ajax():
 def index():
     """To show the page of Grandpy_bot"""
     return render_template("index.html", MAPBOX_KEY=MAPBOX_API)
+    """To switch to Google Map JS"""
+    # return render_template("index.html", GOOGLE_KEY=GOOGLE_API)
