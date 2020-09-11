@@ -4,7 +4,9 @@ logging_config = dict(
     version=1,
     formatters={
         "f": {
-            "format": "%(asctime)s %(name)s module name: %(module)s %(levelname)s function: %(funcName)s line number: %(lineno)d message: %(message)s"
+            "format": "%(asctime)s %(name)s module name:"
+            " %(module)s %(levelname)s function: %(funcName)s"
+            " line number: %(lineno)d message: %(message)s"
         }
     },
     handlers={
