@@ -1,6 +1,6 @@
 """View functions mapped to route URLs"""
 
-from flask import render_template, request, jsonify
+from flask import render_template, request
 from flaskapp import app
 from flaskapp.backend.API import Google, WikiMedia
 from flaskapp.backend.messages import Message
@@ -26,8 +26,7 @@ def ajax():
             # check if wikimedia return a valid answer:
             if infos_wiki["status"]:
                 messages.append(message.positive_wiki())
-                return jsonify(
-                    {
+                return {
                         "locate": locate["locate"],
                         "address": locate["address"],
                         "summary": infos_wiki["summary"],
@@ -35,21 +34,19 @@ def ajax():
                         "messages": messages,
                         "question": question,
                     }
-                )
 
             messages.append(message.negative_wiki())
-            return jsonify(
-                {
+            return {
                     "locate": locate["locate"],
                     "address": locate["address"],
                     "messages": messages,
                     "question": question,
                 }
-            )
+
         messages.append(message.negative_address())
-        return jsonify({"messages": messages, "question": question,})
+        return {"messages": messages, "question": question,}
     messages.append("Mais pose donc une question!!")
-    return jsonify({"messages": messages, "question": "",})
+    return {"messages": messages, "question": "",}
 
 
 @app.route("/")
