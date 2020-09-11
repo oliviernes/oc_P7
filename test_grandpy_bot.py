@@ -302,6 +302,10 @@ def test_ajax_no_response_from_Google_API(client, mocker):
         "/ajax/?Question=azertgdsds", data={"Question": "azertgdsds"}
     )
 
+    """
+    get_json() is a Flask method here. Not to be confused with get_json()
+    of the GetJson class.
+    """
     data = response.get_json()
 
     assert response.status_code == 200
