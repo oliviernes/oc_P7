@@ -13,8 +13,6 @@ let mapNumber = 0;
 // });
 // }
 
-let quest = document.getElementById("question").value;
-
 form.addEventListener('submit', function(event){
     event.preventDefault();
     spinner.style.visibility="visible";
@@ -26,8 +24,7 @@ form.addEventListener('submit', function(event){
     .then(response => {
         let questionElt = document.createElement('div');
         let title1 = document.createElement('h2');
-        title1.textContent = response['question'];
-        // title1.textContent = quest;
+        title1.textContent = document.getElementById("question").value;
         questionElt.className = "col-lg-8 box";
         questionElt.appendChild(title1);
         let answerElt = document.createElement('div');

@@ -33,7 +33,6 @@ def ajax():
                         "summary": infos_wiki["summary"],
                         "url": infos_wiki["url"],
                         "messages": messages,
-                        "question": question,
                     }
 
             messages.append(message.negative_wiki())
@@ -41,13 +40,12 @@ def ajax():
                     "locate": locate["locate"],
                     "address": locate["address"],
                     "messages": messages,
-                    "question": question,
                 }
 
         messages.append(message.negative_address())
-        return {"messages": messages, "question": question,}
+        return {"messages": messages}
     messages.append("Mais pose donc une question!!")
-    return {"messages": messages, "question": "",}
+    return {"messages": messages}
 
 
 @app.route("/")

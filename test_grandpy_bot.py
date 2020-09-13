@@ -312,7 +312,6 @@ def test_ajax_no_response_from_Google_API(client, mocker):
     assert data == {
         "messages": ["Je ne comprend pas ta question. "
                      "Parle moi mieux que ça!"],
-        "question": "azertgdsds",
     }
 
 
@@ -331,7 +330,6 @@ def test_ajax_no_question(client, mocker):
     assert response.status_code == 200
     assert data == {
         "messages": ["Mais pose donc une question!!"],
-        "question": "",
     }
 
 
@@ -376,7 +374,6 @@ def test_ajax_response_from_Google_API_but_not_Wikipedia(client, mocker):
             "Bien sûr mon poussin ! La voici: ",
             "Ça ne me dit rien du tout!!",
         ],
-        "question": "openclassrooms",
     }
 
 
@@ -425,7 +422,6 @@ def test_ajax_response_from_Google_API_and_Wikipedia(client, mocker):
             "Bien sûr mon poussin ! La voici: ",
             "J'y suis allé quand j'étais jeune, il y a 60 ans!:",
         ],
-        "question": "openclassrooms",
         "summary": "Un résumé de wikipedia",
         "url": "https://fr.wikipedia.org/wiki/OpenClassrooms",
     }
