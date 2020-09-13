@@ -13,6 +13,8 @@ let mapNumber = 0;
 // });
 // }
 
+let quest = document.getElementById("question").value;
+
 form.addEventListener('submit', function(event){
     event.preventDefault();
     spinner.style.visibility="visible";
@@ -22,14 +24,19 @@ form.addEventListener('submit', function(event){
     })
     .then(response => response.json())
     .then(response => {
-
         let questionElt = document.createElement('div');
-        questionElt.innerHTML = `<div class="col-lg-8 box"><h2>${ response['question'] }</h2></div>` 
-
+        let title1 = document.createElement('h2');
+        title1.textContent = response['question'];
+        // title1.textContent = quest;
+        questionElt.className = "col-lg-8 box";
+        questionElt.appendChild(title1);
         let answerElt = document.createElement('div');
+        answerElt.className = "offset-lg-2 col-lg-10";
+        let title2 = document.createElement('h2');
         let mapbotElt = document.createElement('div');
         let wikibotElt = document.createElement('div');
-
+        let para = document.createElement('p');
+        wikibotElt.appendChild(para);
         let dialog = document.getElementById("dialogBot");
         let firstChild = dialog.firstChild;
         let chatDiv = document.createElement("div");
@@ -38,22 +45,35 @@ form.addEventListener('submit', function(event){
         if (response['address']) {
 
             let mapa = "map" + mapNumber.toString();
+            title2.textContent = response['messages'][0] + " " + response['address'];
+            answerElt.appendChild(title2);
 
-            answerElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h2>${response['messages'][0]} ${response['address']}</h2></div>`
+            mapbotElt.className = "offset-lg-2 col-lg-10 col-md-8 offset-sm-2 col-sm-6 offset-xs-1 col_xs_10";
+            mapbotElt.id = mapa;
 
             if (window.screen.width > 700) {
-                mapbotElt.innerHTML = `<div id="${mapa}" class="offset-lg-2 col-lg-10 col-md-8 offset-sm-2 col-sm-6 offset-xs-1 col_xs_10" style='width: 700px; height: 400px;'></div>`;
+                mapbotElt.style = 'width: 700px; height: 400px;';
             }
             else {
-                mapbotElt.innerHTML = `<div id="${mapa}" class="offset-lg-2 col-lg-10 col-md-8 offset-sm-2 col-sm-6 offset-xs-1 col_xs_10" style='width: 250px; height: 400px;'></div>`;
+                mapbotElt.style = 'width: 250px; height: 400px;';
             }
 
 
             if (response['summary']) {
-                wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10 offset-md-2 col-md-6 offset-sm-2 col-sm-6 col-xs-6"><p>${response['messages'][1]} ${response['summary']} [<a href="${response['url']}">En savoir plus sur Wikipedia</a>]</p></div>`
+                wikibotElt.className = "offset-lg-2 col-lg-10 offset-md-2 col-md-6 offset-sm-2 col-sm-6 col-xs-6";
+                para.textContent = response['messages'][1] + " " + response['summary'] + "[";
+                let wikilink = document.createElement('a');
+                wikilink.textContent = "En savoir plus sur Wikipedia";
+                wikilink.href = response['url'];
+                para.appendChild(wikilink);
+                wikibotElt.appendChild(para);
+                let paraending = document.createTextNode("]");
+                para.appendChild(paraending);
             }
             else {
-                wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><p>${response['messages'][1]}</p></div>` 
+                wikibotElt.className = "offset-lg-2 col-lg-10";
+                para.textContent = response['messages'][1];
+                wikibotElt.appendChild(para);
             }
 
             chatDiv.appendChild(questionElt)
@@ -69,7 +89,7 @@ form.addEventListener('submit', function(event){
                 center: [ long, lati ],
                 style: 'mapbox://styles/mapbox/streets-v11',
                 zoom: 15,
-            });    
+            });
 
             var marker = new mapboxgl.Marker()
             .setLngLat([ long, lati ])
@@ -134,9 +154,11 @@ form.addEventListener('submit', function(event){
             mapNumber++
         }
         else {
-            answerElt.innerHTML = `<div class="offset-lg-2 col-lg-10"><h2>${response['messages']}</h2></div>`;
-            mapbotElt.innerHTML = `<div class="offset-lg-2 col-lg-10" ></div>`;
-            wikibotElt.innerHTML = `<div class="offset-lg-2 col-lg-10"></div>`;
+
+            title2.textContent = response['messages'][0];
+            answerElt.appendChild(title2);
+            mapbotElt.className = "offset-lg-2 col-lg-10";
+            wikibotElt.className = "offset-lg-2 col-lg-10";
 
             chatDiv.appendChild(questionElt)
             chatDiv.appendChild(answerElt)
