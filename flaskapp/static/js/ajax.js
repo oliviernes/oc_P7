@@ -23,13 +23,13 @@ form.addEventListener('submit', function(event){
     .then(response => response.json())
     .then(response => {
         let questionElt = document.createElement('div');
-        let title1 = document.createElement('h2');
-        title1.textContent = document.getElementById("question").value;
+        let titleQuestion = document.createElement('h2');
+        titleQuestion.textContent = document.getElementById("question").value;
         questionElt.className = "col-lg-8 box";
-        questionElt.appendChild(title1);
+        questionElt.appendChild(titleQuestion);
         let answerElt = document.createElement('div');
         answerElt.className = "offset-lg-2 col-lg-10";
-        let title2 = document.createElement('h2');
+        let titleAnswer = document.createElement('h2');
         let mapbotElt = document.createElement('div');
         let wikibotElt = document.createElement('div');
         let para = document.createElement('p');
@@ -42,8 +42,8 @@ form.addEventListener('submit', function(event){
         if (response['address']) {
 
             let mapa = "map" + mapNumber.toString();
-            title2.textContent = response['messages'][0] + " " + response['address'];
-            answerElt.appendChild(title2);
+            titleAnswer.textContent = response['messages'][0] + " " + response['address'];
+            answerElt.appendChild(titleAnswer);
 
             mapbotElt.className = "offset-lg-2 col-lg-10 col-md-8 offset-sm-2 col-sm-6 offset-xs-1 col_xs_10";
             mapbotElt.id = mapa;
@@ -64,8 +64,8 @@ form.addEventListener('submit', function(event){
                 wikilink.href = response['url'];
                 para.appendChild(wikilink);
                 wikibotElt.appendChild(para);
-                let paraending = document.createTextNode("]");
-                para.appendChild(paraending);
+                let paraEnding = document.createTextNode("]");
+                para.appendChild(paraEnding);
             }
             else {
                 wikibotElt.className = "offset-lg-2 col-lg-10";
@@ -152,8 +152,8 @@ form.addEventListener('submit', function(event){
         }
         else {
 
-            title2.textContent = response['messages'][0];
-            answerElt.appendChild(title2);
+            titleAnswer.textContent = response['messages'][0];
+            answerElt.appendChild(titleAnswer);
             mapbotElt.className = "offset-lg-2 col-lg-10";
             wikibotElt.className = "offset-lg-2 col-lg-10";
 
