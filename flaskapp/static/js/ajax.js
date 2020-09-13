@@ -55,7 +55,6 @@ form.addEventListener('submit', function(event){
                 mapbotElt.style = 'width: 250px; height: 400px;';
             }
 
-
             if (response['summary']) {
                 wikibotElt.className = "offset-lg-2 col-lg-10 offset-md-2 col-md-6 offset-sm-2 col-sm-6 col-xs-6";
                 para.textContent = response['messages'][1] + " " + response['summary'] + "[";
@@ -81,6 +80,8 @@ form.addEventListener('submit', function(event){
             let lati = response['locate'].lat;
             let long = response['locate'].lng;    
 
+            // mapbox config:
+
             var map = new mapboxgl.Map({
                 container: mapa,
                 center: [ long, lati ],
@@ -88,9 +89,36 @@ form.addEventListener('submit', function(event){
                 zoom: 15,
             });
 
-            var marker = new mapboxgl.Marker()
-            .setLngLat([ long, lati ])
-            .addTo(map);
+            var geojson = {
+                type: 'FeatureCollection',
+                features: [{
+                  type: 'Feature',
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [ long, lati ]
+                  },
+                  properties: {
+                    title: response['address'],
+                    description: [ lati, long ]
+                    }
+                },
+                ]
+              };
+
+            // add markers to map
+            geojson.features.forEach(function(marker) {
+
+                // create a HTML element for each feature
+                var el = document.createElement('div');
+                el.className = 'marker';
+
+                // make a marker for each feature and add to the map
+                new mapboxgl.Marker(el)
+                .setLngLat(marker.geometry.coordinates)
+                .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                .setHTML('<h4>' + marker.properties.title + '</h4><p>' + marker.properties.description + '</p>'))
+                .addTo(map);
+            });
 
             // The 'building' layer in the mapbox-streets vector source contains building-height
             // data from OpenStreetMap.

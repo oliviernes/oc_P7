@@ -31,6 +31,14 @@ h1{
     color: #fff;
   }
 
+#spin{
+    visibility: hidden;
+}
+
+#code {
+    color: #000;
+}
+
 #map{
     height: 100%;
     position: relative;
@@ -38,10 +46,20 @@ h1{
     top: 0; bottom: 0; width: 100%;
 }
 
-#spin{
-    visibility: hidden;
+.marker {
+    background-image: url('../img/agecanonix.png');
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
-#code {
-    color: #000;
+.mapboxgl-popup {
+    max-width: 200px;
+}
+ 
+.mapboxgl-popup-content {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
 }
