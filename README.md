@@ -40,3 +40,7 @@ The website is accessible on http://127.0.0.1:5000/ with your web browser.
 You can test the program with the following command:
 
 * pytest tests_grandpy_bot.py
+
+# Switching to Google Maps JS:
+
+The code to switch to Google Maps JS is commented in ajax.js file to easily switch maps from Mapbox GL JS to Google Maps JS.
