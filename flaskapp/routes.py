@@ -8,7 +8,7 @@ from config import MAPBOX_API
 # from config import GOOGLE_API
 
 
-@app.route("/ajax/", methods=["GET", "POST"])
+@app.route("/ajax/", methods=["POST"])
 def ajax():
     """Process data from the Ajax call"""
     google, wiki, message = Google(), WikiMedia(), Message()
