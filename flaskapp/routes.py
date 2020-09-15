@@ -53,14 +53,17 @@ def ajax():
 def index():
     """To show the page of Grandpy_bot"""
     resp = make_response(render_template("index.html", MAPBOX_KEY=MAPBOX_API))
-    resp.headers['Content-Security-Policy-Report-Only'] = "default-src"
-    " 'self' data: ; script-src 'self'"
-    " https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js"
-    " 'unsafe-inline' 'unsafe-eval' ; style-src 'self'"
-    " https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-    " https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css"
-    " 'unsafe-inline' data: ; frame-ancestors 'none' ; base-uri 'self' ; "
-    "worker-src 'self' https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js "
+    resp.headers['Content-Security-Policy-Report-Only'] = "default-src 'self' data: ; \
+    style-src 'self' 'unsafe-inline' \
+    https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css \
+    https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css \
+    http://localhost:5000/static/css/styles.css ;\
+    worker-src 'self' https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js blob: ;\
+    connect-src 'self' data: 'unsafe-inline' 'unsafe-eval' *; \
+    script-src-elem 'self' 'unsafe-inline'\
+    https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css\
+    https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js ;"
+
     return resp
     """To switch to Google Map JS"""
     # return render_template("index.html", GOOGLE_KEY=GOOGLE_API)
