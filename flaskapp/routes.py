@@ -53,7 +53,7 @@ def ajax():
 def index():
     """To show the page of Grandpy_bot"""
     resp = make_response(render_template("index.html", MAPBOX_KEY=MAPBOX_API))
-    resp.headers['Content-Security-Policy-Report-Only'] = "default-src 'self' data: ; \
+    resp.headers['Content-Security-Policy'] = "default-src 'self' data: ; \
     style-src 'self' 'unsafe-inline' \
     https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css \
     https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css \
