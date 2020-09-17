@@ -3,7 +3,7 @@
 import pytest
 from flaskapp import app
 from flaskapp.backend.parser import Parser
-from flaskapp.backend.API import Google, WikiMedia, GetJson
+from flaskapp.backend.api import Google, WikiMedia, GetJson
 from flaskapp.backend.messages import Message
 
 
@@ -39,8 +39,8 @@ class TestParser:
         assert phrase_parsed.parse(adresse) == "openclassrooms"
 
 
-class TestAPI:
-    """Test the API response management."""
+class Testapi:
+    """Test the api response management."""
 
     def test_geoloc_return_OK(self, mocker):
         results = {
@@ -98,7 +98,7 @@ class TestAPI:
         }
 
         mocker.patch(
-                    "flaskapp.backend.API.GetJson.get_json",
+                    "flaskapp.backend.api.GetJson.get_json",
                     return_value=results
                     )
 
@@ -115,7 +115,7 @@ class TestAPI:
         results = {"results": [], "status": "ZERO_RESULTS"}
 
         mocker.patch(
-                    "flaskapp.backend.API.GetJson.get_json",
+                    "flaskapp.backend.api.GetJson.get_json",
                     return_value=results
                     )
 
@@ -156,19 +156,19 @@ class TestAPI:
                 self.url = url
 
         mocker.patch(
-                    "flaskapp.backend.API.MediaWiki.search",
+                    "flaskapp.backend.api.MediaWiki.search",
                     return_value=titles
                     )
         mocker.patch(
-                    "flaskapp.backend.API.MediaWiki.page",
+                    "flaskapp.backend.api.MediaWiki.page",
                     return_value=Page()
                     )
         mocker.patch(
-                    "flaskapp.backend.API.MediaWiki.summary",
+                    "flaskapp.backend.api.MediaWiki.summary",
                     return_value=summary
                     )
         mocker.patch(
-                    "flaskapp.backend.API.MediaWiki.page.url",
+                    "flaskapp.backend.api.MediaWiki.page.url",
                     return_value=url
                     )
 
@@ -189,7 +189,7 @@ class TestAPI:
         titles = []
 
         mocker.patch(
-                    "flaskapp.backend.API.MediaWiki.search",
+                    "flaskapp.backend.api.MediaWiki.search",
                     return_value=titles
                     )
 
@@ -235,7 +235,7 @@ class TestAPI:
         get = GetJson(GEOCODE_URL, payload)
 
         mocker.patch(
-                    "flaskapp.backend.API.requests.get",
+                    "flaskapp.backend.api.requests.get",
                     return_value=response
                     )
 
@@ -285,10 +285,10 @@ def client():
     return client
 
 
-def test_ajax_no_response_from_Google_API(client, mocker):
+def test_ajax_no_response_from_Google_api(client, mocker):
 
     mocker.patch(
-                "flaskapp.backend.API.Google.geoloc",
+                "flaskapp.backend.api.Google.geoloc",
                 return_value={"status": False}
                 )
 
@@ -333,10 +333,10 @@ def test_ajax_no_question(client, mocker):
     }
 
 
-def test_ajax_response_from_Google_API_but_not_Wikipedia(client, mocker):
+def test_ajax_response_from_Google_api_but_not_Wikipedia(client, mocker):
 
     mocker.patch(
-        "flaskapp.backend.API.Google.geoloc",
+        "flaskapp.backend.api.Google.geoloc",
         return_value={
             "locate": {"lat": 48.8975156, "lng": 2.3833993},
             "district": "Quai de la Charente",
@@ -346,7 +346,7 @@ def test_ajax_response_from_Google_API_but_not_Wikipedia(client, mocker):
     )
 
     mocker.patch(
-        "flaskapp.backend.API.WikiMedia.get_infos",
+        "flaskapp.backend.api.WikiMedia.get_infos",
         return_value={"summary": "", "url": "", "status": False},
     )
 
@@ -377,10 +377,10 @@ def test_ajax_response_from_Google_API_but_not_Wikipedia(client, mocker):
     }
 
 
-def test_ajax_response_from_Google_API_and_Wikipedia(client, mocker):
+def test_ajax_response_from_Google_api_and_Wikipedia(client, mocker):
 
     mocker.patch(
-        "flaskapp.backend.API.Google.geoloc",
+        "flaskapp.backend.api.Google.geoloc",
         return_value={
             "locate": {"lat": 48.8975156, "lng": 2.3833993},
             "district": "Quai de la Charente",
@@ -390,7 +390,7 @@ def test_ajax_response_from_Google_API_and_Wikipedia(client, mocker):
     )
 
     mocker.patch(
-        "flaskapp.backend.API.WikiMedia.get_infos",
+        "flaskapp.backend.api.WikiMedia.get_infos",
         return_value={
             "summary": "Un résumé de wikipedia",
             "url": "https://fr.wikipedia.org/wiki/OpenClassrooms",
