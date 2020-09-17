@@ -299,7 +299,7 @@ def test_ajax_no_response_from_Google_api(client, mocker):
     )
 
     response = client.post(
-        "/ajax/?Question=azertgdsds", data={"Question": "azertgdsds"}
+        "/ajax/", data={"Question": "azertgdsds"}
     )
 
     """
@@ -323,7 +323,7 @@ def test_ajax_no_question(client, mocker):
         "Parle moi mieux que ça!",
     )
 
-    response = client.post("/ajax/?Question=", data={"Question": ""})
+    response = client.post("/ajax/", data={"Question": ""})
 
     data = response.get_json()
 
@@ -361,7 +361,7 @@ def test_ajax_response_from_Google_api_but_not_Wikipedia(client, mocker):
     )
 
     response = client.post(
-        "/ajax/?Question=openclassrooms", data={"Question": "openclassrooms"}
+        "/ajax/", data={"Question": "openclassrooms"}
     )
 
     data = response.get_json()
@@ -409,7 +409,7 @@ def test_ajax_response_from_Google_api_and_Wikipedia(client, mocker):
     )
 
     response = client.post(
-        "/ajax/?Question=openclassrooms", data={"Question": "openclassrooms"}
+        "/ajax/", data={"Question": "openclassrooms"}
     )
 
     data = response.get_json()
