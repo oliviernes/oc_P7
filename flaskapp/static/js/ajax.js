@@ -13,99 +13,6 @@ let mapNumber = 0;
 // });
 // }
 
-function initMapBox(mapa, lati, long) {
-    var map = new mapboxgl.Map({
-        container: mapa,
-        center: [ long, lati ],
-        style: 'mapbox://styles/mapbox/streets-v11',
-        zoom: 15,
-    });
-
-    var geojson = {
-        type: 'FeatureCollection',
-        features: [{
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [ long, lati ]
-          },
-          properties: {
-            title: response['address'],
-            description: [ lati, long ]
-            }
-        },
-        ]
-      };
-
-    // add markers to map
-    geojson.features.forEach(function(marker) {
-
-        // create a HTML element for each feature
-        var el = document.createElement('div');
-        el.className = 'marker';
-
-        // make a marker for each feature and add to the map
-        new mapboxgl.Marker(el)
-        .setLngLat(marker.geometry.coordinates)
-        .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-        .setHTML('<h4>' + marker.properties.title + '</h4><p>' + marker.properties.description + '</p>'))
-        .addTo(map);
-    });
-
-    // The 'building' layer in the mapbox-streets vector source contains building-height
-    // data from OpenStreetMap.
-    map.on('load', function () {
-        // Insert the layer beneath any symbol layer.
-        var layers = map.getStyle().layers;
-
-        var labelLayerId;
-        for (var i = 0; i < layers.length; i++) {
-            if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
-            labelLayerId = layers[i].id;
-            break;
-            }
-        }
-
-        map.addLayer(
-            {
-                'id': '3d-buildings',
-                'source': 'composite',
-                'source-layer': 'building',
-                'filter': ['==', 'extrude', 'true'],
-                'type': 'fill-extrusion',
-                'minzoom': 15,
-                'paint': {
-                    'fill-extrusion-color': '#aaa',
-
-                    // use an 'interpolate' expression to add a smooth transition effect to the
-                    // buildings as the user zooms in
-                    'fill-extrusion-height': [
-                        'interpolate',
-                        ['linear'],
-                        ['zoom'],
-                        15,
-                        0,
-                        15.05,
-                        ['get', 'height']
-                    ],
-                    'fill-extrusion-base': [
-                        'interpolate',
-                        ['linear'],
-                        ['zoom'],
-                        15,
-                        0,
-                        15.05,
-                        ['get', 'min_height']
-                    ],
-                    'fill-extrusion-opacity': 0.6
-                }
-            },
-            labelLayerId
-        );
-    });
-
-}
-
 form.addEventListener('submit', function(event){
     event.preventDefault();
     spinner.style.visibility="visible";
@@ -175,7 +82,97 @@ form.addEventListener('submit', function(event){
             let lati = response['locate'].lat;
             let long = response['locate'].lng;    
 
-            initMapBox(mapa, lati, long);
+            // mapbox config:
+
+            var map = new mapboxgl.Map({
+                container: mapa,
+                center: [ long, lati ],
+                style: 'mapbox://styles/mapbox/streets-v11',
+                zoom: 15,
+            });
+
+            var geojson = {
+                type: 'FeatureCollection',
+                features: [{
+                  type: 'Feature',
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [ long, lati ]
+                  },
+                  properties: {
+                    title: response['address'],
+                    description: [ lati, long ]
+                    }
+                },
+                ]
+              };
+
+            // add markers to map
+            geojson.features.forEach(function(marker) {
+
+                // create a HTML element for each feature
+                var el = document.createElement('div');
+                el.className = 'marker';
+
+                // make a marker for each feature and add to the map
+                new mapboxgl.Marker(el)
+                .setLngLat(marker.geometry.coordinates)
+                .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                .setHTML('<h4>' + marker.properties.title + '</h4><p>' + marker.properties.description + '</p>'))
+                .addTo(map);
+            });
+
+            // The 'building' layer in the mapbox-streets vector source contains building-height
+            // data from OpenStreetMap.
+            map.on('load', function () {
+                // Insert the layer beneath any symbol layer.
+                var layers = map.getStyle().layers;
+
+                var labelLayerId;
+                for (var i = 0; i < layers.length; i++) {
+                    if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
+                    labelLayerId = layers[i].id;
+                    break;
+                    }
+                }
+
+                map.addLayer(
+                    {
+                        'id': '3d-buildings',
+                        'source': 'composite',
+                        'source-layer': 'building',
+                        'filter': ['==', 'extrude', 'true'],
+                        'type': 'fill-extrusion',
+                        'minzoom': 15,
+                        'paint': {
+                            'fill-extrusion-color': '#aaa',
+
+                            // use an 'interpolate' expression to add a smooth transition effect to the
+                            // buildings as the user zooms in
+                            'fill-extrusion-height': [
+                                'interpolate',
+                                ['linear'],
+                                ['zoom'],
+                                15,
+                                0,
+                                15.05,
+                                ['get', 'height']
+                            ],
+                            'fill-extrusion-base': [
+                                'interpolate',
+                                ['linear'],
+                                ['zoom'],
+                                15,
+                                0,
+                                15.05,
+                                ['get', 'min_height']
+                            ],
+                            'fill-extrusion-opacity': 0.6
+                        }
+                    },
+                    labelLayerId
+                );
+            });
 
             // To init google map:
 
