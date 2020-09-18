@@ -30,32 +30,18 @@ class GetJson:
              during the process."""
             req.raise_for_status()
         except requests.exceptions.HTTPError as error:
-            print("An HTTP error occurred.")
-            print(str(error))
-            logging.exception("Exception occurred")
+            logging.exception("An HTTP error occurred.")
         except requests.exceptions.ConnectionError as error:
-            print(
-                "OOPS!! Connection Error. Make sure you are connected"
-                " to Internet. Technical Details given below.\n"
-            )
-            print(str(error))
-            logging.exception("Exception occurred")
+            logging.exception("A Connection Error occurred")
         except requests.exceptions.Timeout as error:
-            print("OOPS!! Timeout Error")
-            print(str(error))
-            logging.exception("Exception occurred")
+            logging.exception("A Timeout Error occurred")
         except requests.exceptions.RequestException as error:
-            print("OOPS!! General Error")
-            print(str(error))
-            logging.exception("Exception occurred")
-        except KeyboardInterrupt:
-            print("Someone closed the program")
+            logging.exception("A General Error occurred")
 
         try:
             response = req.json()
         except simplejson.errors.JSONDecodeError:
-            print("Not a json answer")
-            logging.exception("Exception occurred")
+            logging.exception("Not a json answer")
         else:
             return response
 
