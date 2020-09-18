@@ -24,7 +24,7 @@ form.addEventListener('submit', function(event){
     .then(response => {
         let questionElt = document.createElement('div');
         let titleQuestion = document.createElement('h2');
-        titleQuestion.textContent = document.getElementById("question").value;
+        titleQuestion.textContent = document.getElementById("question").value; // Get the user's question
         questionElt.className = "col-lg-8 box";
         questionElt.appendChild(titleQuestion);
         let answerElt = document.createElement('div');
@@ -37,16 +37,18 @@ form.addEventListener('submit', function(event){
         let dialog = document.getElementById("dialogBot");
         let firstChild = dialog.firstChild;
         let chatDiv = document.createElement("div");
-        dialog.insertBefore(chatDiv, firstChild);
+        dialog.insertBefore(chatDiv, firstChild); // Use insertBefore to get the last question/answer on top.
     
         if (response['address']) {
 
-            let mapa = "map" + mapNumber.toString();
+            let mapa = "map" + mapNumber.toString(); // update mapa to set next mapbotElt.id
             titleAnswer.textContent = response['messages'][0] + " " + response['address'];
             answerElt.appendChild(titleAnswer);
 
             mapbotElt.className = "offset-lg-2 col-lg-10 col-md-8 offset-sm-2 col-sm-6 offset-xs-1 col_xs_10";
             mapbotElt.id = mapa;
+
+            // Put an if statement to adapt map size to the screen size:
 
             if (window.screen.width > 700) {
                 mapbotElt.style = 'width: 700px; height: 400px;';
