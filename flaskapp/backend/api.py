@@ -9,7 +9,6 @@ from mediawiki import MediaWiki
 import mediawiki
 import simplejson
 
-from flaskapp.backend.parser import Parser
 from config import GEOCODE_URL, GOOGLE_API
 
 
@@ -72,12 +71,9 @@ class Google:
     def geoloc(self, question):
         """Give coordinates and informations of the user's query."""
 
-        parsing = Parser()
-        question_parsed = parsing.parse(question)
-
         payload = {
             "key": self.key,
-            "address": question_parsed,
+            "address": question,
         }
 
         response = GetJson(self.geocode_url, payload).get_json()

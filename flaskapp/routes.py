@@ -3,6 +3,7 @@
 from flask import render_template, request, make_response
 from flaskapp import app
 from flaskapp.backend.api import Google, WikiMedia
+from flaskapp.backend.parser import Parser
 from flaskapp.backend.messages import Message
 from config import MAPBOX_API
 # from config import GOOGLE_API
@@ -17,7 +18,9 @@ def ajax():
     # check if the user ask an empty question:
     if request.form["Question"]:
         question = request.form["Question"]
-        locate = google.geoloc(question)
+        parsing = Parser()
+        question_parsed = parsing.parse(question)
+        locate = google.geoloc(question_parsed)
 
         # check if the geoloc return a valid answer:
         if locate["status"]:
