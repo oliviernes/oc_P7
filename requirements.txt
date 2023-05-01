@@ -1,5 +1,5 @@
 unidecode==1.1.1
-flask==1.1.2
+flask==2.3.2
 requests==2.24.0
 pymediawiki==0.6.4
 simplejson==3.17.2
